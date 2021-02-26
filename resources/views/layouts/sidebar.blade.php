@@ -16,36 +16,104 @@
     </div>
     <div class="sidebar-wrapper">
       <ul class="nav">
-        <li class="active ">
+        @if(Session::get('selected') === 'dashboard')
+        <li class="active">
           <a href="/dashboard">
             <i class="fas fa-tachometer-alt"></i>
             <p>Dashboard</p>
           </a>
         </li>
+        @else
         <li>
-          <a href="./icons.html">
-            <i class="fas fa-user-injured"></i>
-            <p>Patient Medical Record</p>
+          <a href="/dashboard">
+            <i class="fas fa-tachometer-alt"></i>
+            <p>Dashboard</p>
           </a>
         </li>
+        @endif
+        
+        @if(Session::get('selected') === 'patients-record')
+        <li class="active">
+          <a href="/patients-record">
+            <i class="fas fa-user-injured"></i>
+            <p>Patients Record</p>
+          </a>
+        </li>
+        @else
         <li>
-          <a href="./map.html">
+          <a href="/patients-record">
+            <i class="fas fa-user-injured"></i>
+            <p>Patients Record</p>
+          </a>
+        </li>
+        @endif
+
+        @if(Session::get('selected') === 'medicine-inventory')
+        <li class="active">
+          <a href="/medicine-inventory">
             <i class="fas fa-prescription"></i>
             <p>Medicine Inventory</p>
           </a>
         </li>
+        @else
         <li>
-          <a href="./notifications.html">
-            <i class="far fa-calendar-check"></i>
-            <p>Patient Appointments</p>
+          <a href="/medicine-inventory">
+            <i class="fas fa-prescription"></i>
+            <p>Medicine Inventory</p>
           </a>
         </li>
+        @endif
+
+        @if(Session::get('selected') === 'doctors')
+        <li class="active">
+          <a href="/doctors">
+            <i class="fas fa-user-md"></i>
+            <p>Doctors</p>
+          </a>
+        </li>
+        @else
         <li>
-          <a href="./user.html">
+          <a href="/doctors">
+            <i class="fas fa-user-md"></i>
+            <p>Doctors</p>
+          </a>
+        </li>
+        @endif
+        
+        @if(Session::get('selected') === 'patients-appointment')
+        <li class="active">
+          <a href="/patients-appointments">
+            <i class="far fa-calendar-check"></i>
+            <p>Patients Appointments</p>
+          </a>
+        </li>
+        @else
+        <li>
+          <a href="/patients-appointments">
+            <i class="far fa-calendar-check"></i>
+            <p>Patients Appointments</p>
+          </a>
+        </li>
+        @endif
+        
+              
+        @if(Session::get('selected') === 'manage-accounts')
+        <li class="active">
+          <a href="/manage-accounts">
             <i class="nc-icon nc-single-02"></i>
             <p>Manage Accounts</p>
           </a>
         </li>
+        @else
+        <li>
+          <a href="/manage-accounts">
+            <i class="nc-icon nc-single-02"></i>
+            <p>Manage Accounts</p>
+          </a>
+        </li>
+        @endif
+       
+
       </ul>
     </div>
   </div>

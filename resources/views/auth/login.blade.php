@@ -1,8 +1,9 @@
 <x-guest-layout>
     <x-auth-card>
         <x-slot name="logo">
-            <a href="/">
+            <a href="/login">
                 {{-- <x-application-logo class="w-20 h-20 fill-current text-gray-500" /> --}}
+                Clinic App
             </a>
         </x-slot>
 
@@ -41,11 +42,16 @@
             </div>
 
             <div class="flex items-center justify-end mt-4">
+                
                 @if (Route::has('password.request'))
                     <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('password.request') }}">
                         {{ __('Forgot your password?') }}
                     </a>
                 @endif
+
+                <a class="ml-3 btn btn-dark" href="/register">
+                    {{ __('Register') }}
+                </a>
 
                 <x-button class="ml-3">
                     {{ __('Log in') }}

@@ -1,8 +1,9 @@
 <x-guest-layout>
     <x-auth-card>
         <x-slot name="logo">
-            <a href="/">
-                {{-- <x-application-logo class="w-20 h-20 fill-current text-gray-500" /> --}}
+            <a href="/login">
+                 {{-- <x-application-logo class="w-20 h-20 fill-current text-gray-500" /> --}}
+                 <h6>Clinic App</h6>
             </a>
         </x-slot>
 
@@ -24,6 +25,23 @@
                 <x-label for="email" :value="__('Email')" />
 
                 <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required />
+            </div>
+
+             <!-- Profession -->
+             <div class="mt-4">
+                <x-label for="email" :value="__('Profession')" />
+
+                <x-input id="profession" class="block mt-1 w-full" type="text" name="profession" :value="old('profession')" required />
+            </div>
+
+             <!-- Account Type Address -->
+             <div class="mt-4">
+                <x-label for="account_type" :value="__('Account type')" />
+                <select  class="block mt-1 w-full" id="account_type" name="account_type" required />
+                    <option value="">Please select one</option>
+                    <option value="admin">admin</option>
+                    <option value="user">user</option>
+                </select>
             </div>
 
             <!-- Password -->
@@ -57,3 +75,6 @@
         </form>
     </x-auth-card>
 </x-guest-layout>
+
+
+
