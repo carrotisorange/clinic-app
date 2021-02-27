@@ -9,8 +9,11 @@ class Patient extends Model
 {
     use HasFactory;
 
+    protected $primaryKey = 'patient_id';
+
+    public $timestamps = false;
+
     protected $fillable = [
-        'patient_id',
         'name', 
         'gender',
         'address',

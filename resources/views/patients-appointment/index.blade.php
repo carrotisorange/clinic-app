@@ -1,6 +1,6 @@
 @extends('layouts.main')
 
-@section('title','Manage Accounts')
+@section('title','Patients Appointments')
 
 @section('content')
 <div class="content">
@@ -8,32 +8,36 @@
         <div class="col-md-12">
           <div class="card">
             <div class="card-header">
-              <h4 class="card-title"> Manage Accounts</h4>
+              {{-- <h4 class="card-title"> Patients Appointments</h4> --}}
             </div>
             <div class="card-body">
               <div class="table-responsive">
+                @if ($appointments->count() <= 0)
+                <p class="text-danger text-center">No appointments found!</p>
+               @else
                 <table class="table">
                   <thead class="">
                     <th>#</th>
                     <th>
-                      Name
+                      Date
                     </th>
                     <th>
-                      Email
+                      Patient
                     </th>
                     <th>
-                      Profession
+                      Doctor
                     </th>
                     <th>
-                      Account type
+                      Status
                     </th>
                     <th>
-                        Created on
+                        Description
                     </th>
+                  
                   </thead>
                   <tbody>
                       <?php $ctr=1; ?>
-                    @foreach ($users as $item)
+                    @foreach ($appointments as $item)
                     <tr>
                         <th>{{ $ctr++ }}</th>
                         <td>{{ $item->name }}</td>
@@ -45,6 +49,7 @@
                     @endforeach
                   </tbody>
                 </table>
+                @endif
               </div>
             </div>
           </div>

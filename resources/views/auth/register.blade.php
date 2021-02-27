@@ -1,9 +1,10 @@
 <x-guest-layout>
     <x-auth-card>
+     
         <x-slot name="logo">
+            <br><br>
             <a href="/login">
-                 {{-- <x-application-logo class="w-20 h-20 fill-current text-gray-500" /> --}}
-                 <h6>Clinic App</h6>
+                <img src="{{ asset('/paper-dashboard-master/assets/img/sudipenrhulogo.png') }}" />
             </a>
         </x-slot>
 
@@ -73,7 +74,9 @@
                 </x-button>
             </div>
         </form>
+    
     </x-auth-card>
+    
 </x-guest-layout>
 
 

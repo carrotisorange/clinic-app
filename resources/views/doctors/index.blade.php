@@ -8,12 +8,15 @@
         <div class="col-md-12">
           <div class="card">
             <div class="card-header">
-              <h4 class="card-title"> Doctors</h4>
+              {{-- <h4 class="card-title"> Doctors</h4> --}}
             </div>
             <div class="card-body">
               <div class="table-responsive">
+                @if ($doctors->count() <= 0)
+                <p class="text-danger text-center">No doctors found!</p>
+               @else
                 <table class="table">
-                  <thead class=" text-primary">
+                  <thead class="">
                       <th>#</th>
                     <th>
                       Name
@@ -32,6 +35,7 @@
                     @endforeach
                   </tbody>
                 </table>
+                @endif
               </div>
             </div>
           </div>

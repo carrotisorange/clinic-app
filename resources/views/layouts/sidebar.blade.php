@@ -1,4 +1,4 @@
-<div class="sidebar" data-color="white" data-active-color="danger">
+<div class="sidebar" data-color="white" data-active-color="primary">
     <div class="logo">
       {{--<a href="/dashboard" class="simple-text logo-mini">
         <div class="logo-image-small">
@@ -8,10 +8,9 @@
       </a>
       --}}
       <a href="/dashboard" class="simple-text logo-normal">
-        Clinic App
-         {{-- <div class="logo-image-big">
-         <img src="{{ asset('/paper-dashboard-master/assets/img/logo-big.png') }}"> 
-        </div>  --}}
+
+          <p class="text-right text-dark">CLINIC APP &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img width=40px" src="{{ asset('/paper-dashboard-master/assets/img/sudipenrhulogo.png') }}" /></p>
+   
       </a>
     </div>
     <div class="sidebar-wrapper">

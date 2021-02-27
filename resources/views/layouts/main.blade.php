@@ -17,8 +17,8 @@ Coded by www.creative-tim.com
 
 <head>
   <meta charset="utf-8" />
-  <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
-  <link rel="icon" type="image/png" href="../assets/img/favicon.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('/paper-dashboard-master/assets/img/sudipenrhulogo.png') }}">
+  <link rel="icon" type="image/png" href="{{ asset('/paper-dashboard-master/assets/img/sudipenrhulogo.png') }}">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <title>
    @yield('title')
@@ -42,7 +42,9 @@ Coded by www.creative-tim.com
       <!-- Navbar -->
   @include('layouts.navbar')
       <!-- End Navbar -->
+
     @yield('content')
+ 
      @include('layouts.footer')
      @include('layouts.logout')
     </div>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Medicine;
 use Illuminate\Http\Request;
+use Session;
 
 class MedicineController extends Controller
 {
@@ -14,7 +15,11 @@ class MedicineController extends Controller
      */
     public function index()
     {
-        //
+        Session::put('selected', 'medicine-inventory');
+
+         $medicines = Medicine::all();
+
+      return view('medicine-inventory.index', compact('medicines'));
     }
 
     /**

@@ -1,6 +1,6 @@
 @extends('layouts.main')
 
-@section('title','Manage Accounts')
+@section('title','Medicine Inventory')
 
 @section('content')
 <div class="content">
@@ -8,10 +8,13 @@
         <div class="col-md-12">
           <div class="card">
             <div class="card-header">
-              <h4 class="card-title"> Manage Accounts</h4>
+              {{-- <h4 class="card-title"> Medicine Inventory</h4> --}}
             </div>
             <div class="card-body">
               <div class="table-responsive">
+                @if ($medicines->count() <= 0)
+                <p class="text-danger text-center">No medicines found!</p>
+               @else
                 <table class="table">
                   <thead class="">
                     <th>#</th>
@@ -19,32 +22,30 @@
                       Name
                     </th>
                     <th>
-                      Email
+                      Mg
                     </th>
                     <th>
-                      Profession
+                      Qty
                     </th>
                     <th>
-                      Account type
+                      Expiration
                     </th>
-                    <th>
-                        Created on
-                    </th>
+                  
                   </thead>
                   <tbody>
                       <?php $ctr=1; ?>
-                    @foreach ($users as $item)
+                    @foreach ($medicines as $item)
                     <tr>
                         <th>{{ $ctr++ }}</th>
                         <td>{{ $item->name }}</td>
-                        <td>{{ $item->email }}</td>
-                        <td>{{ $item->profession }}</td>
-                        <td>{{ $item->account_type }}</td>
-                        <td>{{ Carbon\Carbon::parse($item->created_at)->format('M d, Y') }}</td>
+                        <td>{{ $item->mg }}</td>
+                        <td>{{ $item->quantity }}</td>
+                        <td>{{ Carbon\Carbon::parse($item->expiration)->format('M d, Y') }}</td>
                     </tr>
                     @endforeach
                   </tbody>
                 </table>
+                @endif
               </div>
             </div>
           </div>

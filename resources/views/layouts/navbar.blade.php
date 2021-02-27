@@ -8,7 +8,7 @@
             <span class="navbar-toggler-bar bar3"></span>
           </button>
         </div>
-        <a class="navbar-brand" href="javascript:;">CLINIC APP</a>
+        <a class="navbar-brand" href="javascript:;">@yield('title')</a>
       </div>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-bar navbar-kebab"></span>
@@ -43,7 +43,7 @@
               </p>
             </a>
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-              <a class="dropdown-item" href="#">Profile</a>
+              <a class="dropdown-item" href="/profile/{{ Auth::user()->id }}">Profile</a>
               <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">Logout</a>
               {{-- <a class="dropdown-item" href="#">Something else here</a> --}}
             </div>

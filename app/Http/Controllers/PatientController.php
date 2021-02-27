@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Patient;
 use Illuminate\Http\Request;
 use Session;
+use DB;
 
 class PatientController extends Controller
 {
@@ -13,11 +14,19 @@ class PatientController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         Session::put('selected', 'patients-record');
 
-         $patients = Patient::all();
+        Session::put('search', $request->search);
+
+        if($request->search == null){
+            $patients = Patient::all();
+        }else{
+            $patients = DB::table('patients')
+            ->whereRaw("concat(name, ' ', contact_number) like '%$request->search%' ")
+            ->get(); 
+        }  
 
         return view('patients-record.index', compact('patients'));
     }
@@ -40,7 +49,19 @@ class PatientController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $patient_id =  DB::table('patients')->insertGetId([
+            'name' => $request->name,
+            'gender' => $request->gender,
+            'birthdate' => $request->birthdate,
+            'address' => $request->address,
+            'civil_status' => $request->civil_status,
+            'contact_number' => $request->contact_number,
+            'fathers_name' => $request->fathers_name,
+            'mothers_name' => $request->mothers_name,
+            'educational_attainment' => $request->educational_attainment
+        ]);
+
+        return redirect('/patient/'.$patient_id)->with('success', 'Patient is added.');
     }
 
     /**
@@ -60,9 +81,11 @@ class PatientController extends Controller
      * @param  \App\Models\Patient  $patient
      * @return \Illuminate\Http\Response
      */
-    public function edit(Patient $patient)
+    public function edit($patient_id)
     {
-        //
+        $patient = Patient::findOrFail($patient_id);
+
+        return view('patients-record.edit', compact('patient'));
     }
 
     /**
@@ -72,9 +95,21 @@ class PatientController extends Controller
      * @param  \App\Models\Patient  $patient
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Patient $patient)
+    public function update(Request $request, $patient_id)
     {
-        //
+        $patient = Patient::findOrFail($patient_id);
+        $patient->name=$request->name;
+        $patient->gender=$request->gender;
+        $patient->birthdate=$request->birthdate;
+        $patient->address=$request->address;
+        $patient->contact_number=$request->contact_number;
+        $patient->fathers_name=$request->fathers_name;
+        $patient->mothers_name=$request->mothers_name;
+        $patient->civil_status=$request->civil_status;
+        $patient->educational_attainment=$request->educational_attainment;
+        $patient->save();
+
+        return redirect()->back()->with('success', 'Changes saved.');
     }
 
     /**

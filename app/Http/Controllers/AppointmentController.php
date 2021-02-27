@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Appointment;
 use Illuminate\Http\Request;
+use Session;
+use DB;
 
 class AppointmentController extends Controller
 {
@@ -14,7 +16,14 @@ class AppointmentController extends Controller
      */
     public function index()
     {
-        //
+        Session::put('selected', 'patients-appointment');
+
+         $appointments = DB::table('appointments')
+                        ->join('patients', 'patient_id_fk', 'patient_id')
+                        ->join('doctors', 'doctor_id_fk', 'doctor_id')        
+                        ->get();
+
+       return view('patients-appointment.index', compact('appointments'));
     }
 
     /**

@@ -20,6 +20,10 @@ class AuthenticatedSessionController extends Controller
         return view('auth.login');
     }
 
+    public function show($account_id){
+        return $account_id;
+    }
+
     /**
      * Handle an incoming authentication request.
      *
