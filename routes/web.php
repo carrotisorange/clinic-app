@@ -21,10 +21,13 @@ use Illuminate\Support\Facades\Hash;
 Route::get('/dashboard', function () {
     Session::put('selected', 'dashboard');
 
-    $appointments = DB::table('appointments')
-                   ->join('patients', 'patient_id_fk', 'patient_id')
-                   ->join('doctors', 'doctor_id_fk', 'doctor_id')        
-                   ->get();
+    $appointments =  DB::table('appointments')
+    ->join('patients', 'patient_id_fk', 'patient_id')
+    ->join('doctors', 'doctor_id_fk', 'doctor_id')
+    ->select('*', 'doctors.name as doctor_name', 'patients.name as patient_name')
+    ->orderBy('appointment_id', 'desc')
+    ->limit(5)
+    ->get();
 
     $doctors = Doctor::all();
 
@@ -43,6 +46,8 @@ Route::get('/', function () {
 
 require __DIR__.'/auth.php';
 
+
+
 //routes for patients record
 Route::get('/patients-record', 'PatientController@index')->middleware(['auth']);
 Route::post('/patient/store', 'PatientController@store')->middleware(['auth']);
@@ -51,12 +56,21 @@ Route::put('/patient/{patient_id}/update', 'PatientController@update')->middlewa
 
 //routes for doctors
 Route::get('/doctors', 'DoctorController@index')->middleware(['auth']);
+Route::post('/doctor/store', 'DoctorController@store')->middleware(['auth']);
 
 //routes for medicines
 Route::get('/medicine-inventory', 'MedicineController@index')->middleware(['auth']);
+Route::post('/medicine/store', 'MedicineController@store')->middleware(['auth']);
 
 //routes for appointments
 Route::get('/patients-appointments', 'AppointmentController@index')->middleware(['auth']);
+Route::post('/patient/{patient_id}/appointment/store', 'AppointmentController@store')->middleware(['auth']);
+Route::get('/patient/{patient_id}/appointment/{appointment_id}', 'AppointmentController@edit')->middleware(['auth']);
+Route::get('/patient/{patient_id}/appointments/', 'AppointmentController@show')->middleware(['auth']);
+Route::put('/patient/{patient_id}/appointment/{appointment_id}/update', 'AppointmentController@update')->middleware(['auth']);
+
+//routes for patients diagnosis
+Route::post('/patient/{patient_id}/appointment/{appointment_id}/diagnosis/store', 'DiagnosisController@store')->middleware(['auth']);
 
 //routes for accounts
 Route::get('/manage-accounts', function(){

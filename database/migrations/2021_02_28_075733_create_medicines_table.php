@@ -14,10 +14,10 @@ class CreateMedicinesTable extends Migration
     public function up()
     {
         Schema::create('medicines', function (Blueprint $table) {
-            $table->integer('medicine_id')->unsigned();
+            $table->id('medicine_id', false, true)->length(10);
             $table->string('name');
             $table->double('mg', 8, 2);
-            $table->integer('quantity', 8, 2);
+            $table->double('quantity', 8, 2);
             $table->date('expiration');
             $table->timestamps();
         });

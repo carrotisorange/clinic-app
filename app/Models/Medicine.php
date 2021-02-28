@@ -9,6 +9,8 @@ class Medicine extends Model
 {
     use HasFactory;
 
+    protected $primaryKey = 'medicine_id';
+
     protected $fillable = [
         'medicine_id',
         'name',

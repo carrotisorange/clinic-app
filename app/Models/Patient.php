@@ -26,6 +26,6 @@ class Patient extends Model
 
     public function appointments()
     {
-        return $this->hasMany('App\Appointment', 'patient_id_fk');
+        return $this->hasMany('App\Models\Appointment', 'patient_id_fk');
     }
 }

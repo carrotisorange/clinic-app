@@ -124,35 +124,37 @@
             <table class="table">
               <thead class=" text-primary">
                 <th>#</th>
-                <th>
-                  Date
-                </th>
-                <th>
-                  Patient
-                </th>
-                <th>
-                  Doctor
-                </th>
-                <th>
-                  Status
-                </th>
-                <th>
-                    Description
-                </th>
+                    <th>
+                      Date
+                    </th>
+                    <th>
+                      Patient
+                    </th>
+                    <th>
+                      Doctor
+                    </th>
+                    <th>
+                      Status
+                    </th>
+                    <th>
+                        Description
+                    </th>
+                    <th></th>
               
               </thead>
               <tbody>
-                  <?php $ctr=1; ?>
-                @foreach ($appointments as $item)
-                <tr>
-                    <th>{{ $ctr++ }}</th>
-                    <td>{{ $item->name }}</td>
-                    <td>{{ $item->email }}</td>
-                    <td>{{ $item->profession }}</td>
-                    <td>{{ $item->account_type }}</td>
-                    <td>{{ Carbon\Carbon::parse($item->created_at)->format('M d, Y') }}</td>
-                </tr>
-                @endforeach
+                    <?php $ctr=1; ?>
+                    @foreach ($appointments as $item)
+                    <tr>
+                      <th>{{ $ctr++ }}</th>
+                      <td>{{ Carbon\Carbon::parse($item->date)->format('M d, Y') }}</td>
+                      <td>{{ $item->patient_name }}</td>
+                      <td>{{ $item->doctor_name }}</td>
+                      <td>{{ $item->status }}</td>
+                      <td>{{ $item->desc }}</td>
+                      <th> <a href="/patient/{{ $item->patient_id }}/appointment/{{ $item->appointment_id }}" class="btn btn-dark text-whit" > View</a></th>
+                    </tr>
+                    @endforeach
               </tbody>
             </table>
           </div>
@@ -171,7 +173,7 @@
            @if($doctors->count() <=0 )
             <p class="text-danger text-center">No doctors found!</p>
            @else
-           <div class="table-responsive">
+           <div class="">
       
               <table class="table">
                 <thead class=" text-primary">
@@ -180,8 +182,7 @@
                     Name
                   </th>
                   <th>
-                      Created at
-                  </th>
+                      Profession                  </th>
                 </thead>
                 <tbody>
                     <?php $ctr=1; ?>
@@ -189,7 +190,7 @@
                   <tr>
                       <th>{{ $ctr++ }}</th>
                       <td>{{ $item->name }}</td>
-                      <td>{{ Carbon\Carbon::parse($item->created_at)->format('M d, Y') }}</td>
+                      <td>{{ $item->profession }}</td>
                   @endforeach
                 </tbody>
               </table>
@@ -197,7 +198,7 @@
            @endif
           </div>
         </div>
-   
+        </div>
     </div>
     <div class="col-md-6">
       <div class="card">
@@ -209,7 +210,7 @@
           <p class="text-danger text-center">No accounts found!</p>
          @else
    
-          <div class="table-responsive">
+          <div class="">
             <table class="table">
               <thead class=" text-primary">
                 <th>#</th>
@@ -218,7 +219,7 @@
                 </th>
                
                 <th>
-                  Profession
+                  Role
                 </th>
                 
               </thead>
@@ -229,7 +230,7 @@
                     <th>{{ $ctr++ }}</th>
                     <td>{{ $item->name }}</td>
                    
-                    <td>{{ $item->profession }}</td>
+                    <td>{{ $item->account_type }}</td>
                    
                 </tr>
                 @endforeach

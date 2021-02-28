@@ -1,6 +1,6 @@
 @extends('layouts.main')
 
-@section('title','Patients Appointments')
+@section('title', $patient->name)
 
 @section('content')
 <div class="content">
@@ -40,13 +40,13 @@
                       <?php $ctr=1; ?>
                     @foreach ($appointments as $item)
                     <tr>
-                      <th>{{ $ctr++ }}</th>
-                      <td>{{ Carbon\Carbon::parse($item->date)->format('M d, Y') }}</td>
-                      <td>{{ $item->patient_name }}</td>
-                      <td>{{ $item->doctor_name }}</td>
-                      <td>{{ $item->status }}</td>
-                      <td>{{ $item->desc }}</td>
-                      <th> <a href="/patient/{{ $item->patient_id }}/appointment/{{ $item->appointment_id }}" class="btn btn-dark text-whit" > View</a></th>
+                        <th>{{ $ctr++ }}</th>
+                        <td>{{ Carbon\Carbon::parse($item->date)->format('M d, Y') }}</td>
+                        <td>{{ $item->patient_name }}</td>
+                        <td>{{ $item->doctor_name }}</td>
+                        <td>{{ $item->status }}</td>
+                        <td>{{ $item->desc }}</td>
+                        <th> <a href="/patient/{{ $item->patient_id }}/appointment/{{ $item->appointment_id }}" class="btn btn-dark text-whit" > View</a></th>
                     </tr>
                     @endforeach
                   </tbody>

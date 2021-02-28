@@ -40,7 +40,14 @@ class MedicineController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $medicine = new Medicine;
+        $medicine->name = $request->name;
+        $medicine->mg = $request->mg;
+        $medicine->quantity = $request->quantity;
+        $medicine->expiration = $request->expiration;
+        $medicine->save();
+
+        return back()->with('success', 'Medicine added successfully.');
     }
 
     /**

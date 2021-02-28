@@ -69,6 +69,7 @@ Coded by www.creative-tim.com
       demo.initChartsPages();
     });
   </script>
+  @yield('js-scripts')
 </body>
 
 </html>

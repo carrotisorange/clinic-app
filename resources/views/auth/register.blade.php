@@ -29,21 +29,21 @@
             </div>
 
              <!-- Profession -->
-             <div class="mt-4">
+             {{-- <div class="mt-4">
                 <x-label for="email" :value="__('Profession')" />
 
                 <x-input id="profession" class="block mt-1 w-full" type="text" name="profession" :value="old('profession')" required />
-            </div>
+            </div> --}}
 
              <!-- Account Type Address -->
-             <div class="mt-4">
+             {{-- <div class="mt-4">
                 <x-label for="account_type" :value="__('Account type')" />
                 <select  class="block mt-1 w-full" id="account_type" name="account_type" required />
                     <option value="">Please select one</option>
                     <option value="admin">admin</option>
                     <option value="user">user</option>
                 </select>
-            </div>
+            </div> --}}
 
             <!-- Password -->
             <div class="mt-4">

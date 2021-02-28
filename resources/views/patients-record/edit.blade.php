@@ -5,8 +5,18 @@
 @section('content')
 
 <div class="content">
+    @include('layouts.notifications')
+
+        <p class="col-md-12 text-right">
+           @if($appointments->count() > 0)
+           <a href="/patient/{{ $patient->patient_id }}/appointments" class="btn btn-dark text-whit" > VIew All Appointment</a>
+           @endif
+            <a href="#" class="btn btn-dark text-whit" data-toggle="modal" data-target="#appointmentmodal" data-whatever="@mdo"> Add New Appointment</a>
+        </p>
+  
     <div class="row">
-        @include('layouts.notifications')
+     
+      
         <div class="col-md-12">
           <div class="card">
             <div class="card-header">
@@ -88,5 +98,58 @@
         </div>
       </div>
 </div>
+
+<div class="modal fade" id="appointmentmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"  data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-md" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel" >Appointment Information</h5>
+  
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        </div>
+        <div class="modal-body">
+            <form id="appointmentForm" action="/patient/{{ $patient->patient_id }}/appointment/store" method="POST">
+                @csrf
+            </form>
+            
+            <div class="form-group">
+                <label>Date</label>
+                <input form="appointmentForm" type="date" class="form-control" name="date" value="{{ Carbon\Carbon::now()->format('Y-m-d') }}" required>
+            </div>
+    
+  
+            <div class="form-group">
+              <label>Patient</label>
+              <input form="appointmentForm" type="text" class="form-control" name="name" value="{{ $patient->name }}" required readonly>
+          </div>
+  
+         
+          <div class="form-group">
+            <label>Select a doctor</label>
+            <select class="form-control" form="appointmentForm" name="doctor_id" required>
+               @foreach ($doctors as $item)
+                <option value="{{ $item->doctor_id }}">Dr. {{ $item->name }} | {{ $item->profession }}</option>
+               @endforeach
+            </select>
+        </div>
+
+        
+        <div class="form-group">
+            <label>Description</label>
+            <textarea form="appointmentForm" type="text" class="form-control" name="desc" value="" required ></textarea>
+        </div>
+    
+            
+  
+        </div>
+        <div class="modal-footer">
+          
+            <button form="appointmentForm" type="submit" class="btn btn-dark text-white" onclick="return confirm('Are you sure you want perform this action?'); this.disabled = true;"> Submit</button>
+            </div>
+    </div>
+    </div>
+  </div>
 @endsection
 

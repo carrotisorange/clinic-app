@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Patient;
+use App\Models\Doctor;
 use Illuminate\Http\Request;
 use Session;
 use DB;
@@ -61,7 +62,7 @@ class PatientController extends Controller
             'educational_attainment' => $request->educational_attainment
         ]);
 
-        return redirect('/patient/'.$patient_id)->with('success', 'Patient is added.');
+        return redirect('/patient/'.$patient_id)->with('success', 'Patient added successfully.');
     }
 
     /**
@@ -84,8 +85,19 @@ class PatientController extends Controller
     public function edit($patient_id)
     {
         $patient = Patient::findOrFail($patient_id);
+        
+        $doctors = Doctor::all();
 
-        return view('patients-record.edit', compact('patient'));
+        $appointments =  DB::table('appointments')
+        ->join('patients', 'patient_id_fk', 'patient_id')
+        ->join('doctors', 'doctor_id_fk', 'doctor_id')
+        ->select('*', 'doctors.name as doctor_name', 'patients.name as patient_name')
+        ->where('patient_id', $patient_id)
+        ->orderBy('appointment_id', 'desc')
+        ->get();
+
+
+        return view('patients-record.edit', compact('patient', 'doctors','appointments'));
     }
 
     /**

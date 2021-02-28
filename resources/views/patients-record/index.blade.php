@@ -26,7 +26,7 @@
     </div>
   </div>
   @if(Session::get('search'))
-<p class="text-center"> <span class="">  Showing </span> <span class="text-primary">{{ $patients->count() }}</span> patient/s.</p>
+<p class="text-left"> <b><span class="">  Showing </span> <span class="text-primary">{{ $patients->count() }}</span> patient/s.</b></p>
 @endif
     <div class="row">
         <div class="col-md-12">
@@ -60,18 +60,19 @@
                     <th>
                         Mobile
                     </th>
+                    <th></th>
                   </thead>
                   <tbody>
                       <?php $ctr=1; ?>
                     @foreach ($patients as $item)
                     <tr>
                         <th>{{ $ctr++ }}</th>
-                        <th><a href="/patient/{{ $item->patient_id }}">{{ $item->name }}</a></th>
+                        <td>{{ $item->name }}</td>
                         <td>{{ $item->gender }}</td>
                         <td>{{ $item->birthdate }}</td>
                         <td>{{ $item->address }}</td>
                         <td>{{ $item->contact_number }}</td>
-                     
+                        <th> <a href="/patient/{{ $item->patient_id }}" class="btn btn-dark text-whit" > View</a></th>
                     @endforeach
                   </tbody>
                 </table>
