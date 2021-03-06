@@ -11,6 +11,7 @@ use App\Models\Prescription;
 use Illuminate\Http\Request;
 use Session;
 use DB;
+use Carbon\Carbon;
 
 class AppointmentController extends Controller
 {
@@ -133,6 +134,25 @@ class AppointmentController extends Controller
         $appointment->save();
 
         return back()->with('success', 'Changes saved.');
+    }
+
+    public function export($patient_id,$appointment_id)
+    {
+        $patient = Patient::findOrFail($patient_id);
+        $appointments = Patient::findOrFail($patient_id)->appointments;
+        $diagnosis = Appointment::findOrFail($appointment_id)->diagnosis;
+        $prescriptions = Appointment::findOrFail($appointment_id)->prescriptions;
+
+        $data = [
+            'patient' => $patient,
+            'appointments' => $appointments,
+            'diagnosis' => $diagnosis,
+            'prescriptions' => $prescriptions,
+        ];
+       
+        $pdf = \PDF::loadView('patients-appointment.export', $data)->setPaper('a5', 'portrait');       
+      
+        return $pdf->download(Carbon::now().'-'.$patient->name.'.pdf');
     }
 
     /**

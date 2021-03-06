@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Medicine;
+use App\Models\Stock;
 use Illuminate\Http\Request;
 use Session;
+use DB;
+use Auth;
 
 class MedicineController extends Controller
 {
@@ -19,7 +22,14 @@ class MedicineController extends Controller
 
          $medicines = Medicine::all();
 
-      return view('medicine-inventory.index', compact('medicines'));
+         $stocks = DB::table('medicines')
+         ->join('stocks', 'medicine_id', 'medicine_id_fk')
+         ->join('users', 'user_id_fk', 'id')
+         ->select('*', 'stocks.created_at as date', 'users.name as user', 'medicines.name as medicine')
+         ->orderBy('stocks.created_at', 'desc')
+         ->get();
+
+      return view('medicine-inventory.index', compact('medicines', 'stocks'));
     }
 
     /**
@@ -42,6 +52,7 @@ class MedicineController extends Controller
     {
         $medicine = new Medicine;
         $medicine->name = $request->name;
+        $medicine->brand = $request->brand;
         $medicine->mg = $request->mg;
         $medicine->quantity = $request->quantity;
         $medicine->expiration = $request->expiration;
@@ -67,9 +78,19 @@ class MedicineController extends Controller
      * @param  \App\Models\Medicine  $medicine
      * @return \Illuminate\Http\Response
      */
-    public function edit(Medicine $medicine)
+    public function edit($medicine_id)
     {
-        //
+        $medicine = Medicine::findOrFail($medicine_id);
+
+         $stocks = DB::table('medicines')
+        ->join('stocks', 'medicine_id', 'medicine_id_fk')
+        ->join('users', 'user_id_fk', 'id')
+        ->select('*', 'stocks.created_at as date', 'users.name as user')
+        ->where('medicine_id', $medicine_id)
+        ->orderBy('stocks.created_at', 'desc')
+        ->get();
+
+        return view('medicine-inventory.edit', compact('medicine', 'stocks'));
     }
 
     /**
@@ -79,9 +100,41 @@ class MedicineController extends Controller
      * @param  \App\Models\Medicine  $medicine
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Medicine $medicine)
+    public function update(Request $request, $medicine_id)
     {
-        //
+
+         $current_stock = Medicine::findOrFail($medicine_id)->quantity;
+       
+
+        if($request->qty > $current_stock){
+        $diff = ($request->qty-$current_stock );
+           $stock = new Stock();
+           $stock->medicine_id_fk = $medicine_id;
+           $stock->user_id_fk = Auth::user()->id;
+           $stock->qty_changed = $diff;
+           $stock->desc = $diff.' stock is added to the inventory.';
+           $stock->save();
+       }else{
+        $diff = ($current_stock - $request->qty);
+            $stock = new Stock();
+            $stock->medicine_id_fk = $medicine_id;
+            $stock->user_id_fk = Auth::user()->id;
+            $stock->qty_changed = $diff;
+            $stock->desc = $diff.' stock is removed to the inventory.';
+            $stock->save();
+       }
+
+        $medicine = Medicine::findOrFail($medicine_id);
+        $medicine->name = $request->name;
+        $medicine->brand = $request->brand;
+        $medicine->mg = $request->mg;
+        $medicine->quantity = $request->qty;
+        $medicine->expiration = $request->expiration;
+        $medicine->save();
+
+       
+
+        return redirect()->back()->with('success', 'Changes saved.');
     }
 
     /**

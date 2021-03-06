@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Diagnosis;
+use App\Models\Stock;
 use App\Models\Medicine;
 use App\Models\Prescription;
 use Illuminate\Http\Request;
+use Auth;
 
 class DiagnosisController extends Controller
 {
@@ -46,8 +48,9 @@ class DiagnosisController extends Controller
         $diagnosis->weight = $request->weight;
         $diagnosis->height = $request->height;
         $diagnosis->save();
-
+      
         for ($i=1; $i < $request->no_of_bills; $i++) { 
+
             $bill = new Prescription();
             $bill->appointment_id_fk = $appointment_id;
             $bill->medicine_id_fk = $request->input('medicine'.$i);
@@ -58,7 +61,17 @@ class DiagnosisController extends Controller
             $medicine = Medicine::findOrFail($request->input('medicine'.$i));
             $medicine->quantity = $medicine->quantity-$request->input('qty'.$i);
             $medicine->save();
+
+            $stock = new Stock();
+            $stock->medicine_id_fk = $request->input('medicine'.$i);
+            $stock->user_id_fk = Auth::user()->id;
+            $stock->qty_changed = $request->input('qty'.$i);
+            $stock->desc = $request->input('qty'.$i).' stock is removed to the inventory.';
+            $stock->save();
+    
         }
+
+        
 
         return back()->with('success', 'Diagnosis added successfully.');
     }

@@ -7,6 +7,7 @@
   @include('layouts.notifications')
 
   <p class="col-md-12 text-right">
+    <a href="#" class="btn btn-dark text-white" data-toggle="modal" data-target="#viewinventorymodal" data-whatever="@mdo"> View Inventory</a>
       <a href="#" class="btn btn-dark text-whit" data-toggle="modal" data-target="#addmedicinemodal" data-whatever="@mdo"> Add New Medicine</a>
   </p>
     <div class="row">
@@ -23,29 +24,24 @@
                 <table class="table">
                   <thead class="">
                     <th>#</th>
-                    <th>
-                      Name
-                    </th>
-                    <th>
-                      Mg
-                    </th>
-                    <th>
-                      Qty
-                    </th>
-                    <th>
-                      Expiration
-                    </th>
-                  
+                    <th>Name</th>
+                    <th>Brand</th>
+                    <th>Mg</th>
+                    <th>Qty</th>
+                    <th>Expiration</th>
+                    <th></th>
                   </thead>
                   <tbody>
-                      <?php $ctr=1; ?>
+                    <?php $ctr=1; ?>
                     @foreach ($medicines as $item)
                     <tr>
                         <th>{{ $ctr++ }}</th>
                         <td>{{ $item->name }}</td>
+                        <td>{{ $item->brand }}</td>
                         <td>{{ $item->mg }}</td>
                         <td>{{ $item->quantity }}</td>
                         <td>{{ Carbon\Carbon::parse($item->expiration)->format('M d, Y') }}</td>
+                        <th> <a href="/medicine/{{ $item->medicine_id }}/edit" class="btn btn-dark text-whit" > Edit</a></th>
                     </tr>
                     @endforeach
                   </tbody>
@@ -77,6 +73,10 @@
             <label>Name</label>
             <input form="medicineForm" type="text" class="form-control" name="name" required>
         </div>
+        <div class="form-group">
+          <label>Brand</label>
+          <input form="medicineForm" type="text" class="form-control" name="brand" required>
+      </div>
 
         <div class="form-group">
           <label>Mg</label>
@@ -101,5 +101,49 @@
   </div>
   </div>
 </div>
+
+<div class="modal fade" id="viewinventorymodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"  data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog modal-lg" role="document">
+  <div class="modal-content">
+      <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalLabel" >Inventory</h5>
+
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+      </button>
+      </div>
+      <div class="modal-body">
+        <div class="">
+          @if ($stocks->count() <= 0)
+          <p class="text-danger text-center">No records found!</p>
+         @else
+         <table class="table">
+           <th>Date</th>
+           <th>Description</th>
+           <th>User</th>
+         @foreach ($stocks as $item)
+       
+          <tbody>
+            <td>
+              {{ Carbon\Carbon::parse($item->date)->format('M d, Y').', '.Carbon\Carbon::parse($item->date)->toTimeString() }}
+            </td>
+            <td>
+             ({{ $item->medicine }}) {{ $item->desc }}
+            </td>
+            <td>{{ $item->user }}</td>
+          </tbody>
+       
+         @endforeach
+        </table>
+          @endif
+        </div>
+      </div>
+      <div class="modal-footer">
+        
+        <button type="button" class="btn-dark btn" data-dismiss="modal"> Close</button>
+          </div>
+  </div>
+  </div>
+</div>  
 @endsection
 

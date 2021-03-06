@@ -12,10 +12,15 @@ class Medicine extends Model
     protected $primaryKey = 'medicine_id';
 
     protected $fillable = [
-        'medicine_id',
+        'brand',
         'name',
         'mg',
         'quantity',
         'expiration',
     ];
+
+    public function stocks()
+    {
+        return $this->hasMany('App\Models\Medicine', 'medicine_id_fk');
+    }
 }

@@ -61,6 +61,8 @@ Route::post('/doctor/store', 'DoctorController@store')->middleware(['auth']);
 //routes for medicines
 Route::get('/medicine-inventory', 'MedicineController@index')->middleware(['auth']);
 Route::post('/medicine/store', 'MedicineController@store')->middleware(['auth']);
+Route::get('/medicine/{medicine_id}/edit', 'MedicineController@edit')->middleware(['auth']);
+Route::put('/medicine/{medicine_id}/update', 'MedicineController@update')->middleware(['auth']);
 
 //routes for appointments
 Route::get('/patients-appointments', 'AppointmentController@index')->middleware(['auth']);
@@ -68,6 +70,7 @@ Route::post('/patient/{patient_id}/appointment/store', 'AppointmentController@st
 Route::get('/patient/{patient_id}/appointment/{appointment_id}', 'AppointmentController@edit')->middleware(['auth']);
 Route::get('/patient/{patient_id}/appointments/', 'AppointmentController@show')->middleware(['auth']);
 Route::put('/patient/{patient_id}/appointment/{appointment_id}/update', 'AppointmentController@update')->middleware(['auth']);
+Route::get('/patient/{patient_id}/appointment/{appointment_id}/export', 'AppointmentController@export')->middleware(['auth']);
 
 //routes for patients diagnosis
 Route::post('/patient/{patient_id}/appointment/{appointment_id}/diagnosis/store', 'DiagnosisController@store')->middleware(['auth']);

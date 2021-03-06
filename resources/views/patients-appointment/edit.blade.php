@@ -7,9 +7,10 @@
     @include('layouts.notifications')
 
     <p class="col-md-12 text-right">
-        <a href="#" class="btn btn-dark text-whit" data-toggle="modal" data-target="#viewpresciptionsmodal" data-whatever="@mdo"> View All Prescriptions</a>
-        <a href="#" class="btn btn-dark text-whit" data-toggle="modal" data-target="#viewdiagnosismodal" data-whatever="@mdo"> View All Diagnosis</a>
-        <a href="#" class="btn btn-dark text-whit" data-toggle="modal" data-target="#adddiagnosismodal" data-whatever="@mdo"> Add New Diagnosis</a>
+      <a href="/patient/{{ $patient->patient_id }}/appointment/{{ $appointment->appointment_id }}/export" class="btn btn-dark text-white" > Print All Diagnosis</a>
+        <a href="#" class="btn btn-dark text-white" data-toggle="modal" data-target="#viewpresciptionsmodal" data-whatever="@mdo"> View All Prescriptions</a>
+        <a href="#" class="btn btn-dark text-white" data-toggle="modal" data-target="#viewdiagnosismodal" data-whatever="@mdo"> View All Diagnosis</a>
+        <a href="#" class="btn btn-dark text-white" data-toggle="modal" data-target="#adddiagnosismodal" data-whatever="@mdo"> Add New Diagnosis</a>
     </p>
     <div class="row">
         <div class="col-md-12">
