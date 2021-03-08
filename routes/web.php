@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Models\User;
 use App\Models\Doctor;
 use App\Models\Patient;
+use App\Models\Appointment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -29,13 +30,15 @@ Route::get('/dashboard', function () {
     ->limit(5)
     ->get();
 
+     $pending_appointments = Appointment::where("status", "pending")->count();
+
     $doctors = Doctor::all();
 
     $accounts = User::all();
 
     $patients = Patient::all();
   
-    return view('dashboard', compact('appointments', 'doctors', 'accounts', 'patients'));
+    return view('dashboard', compact('appointments', 'doctors', 'accounts', 'patients', 'pending_appointments'));
 })->middleware(['auth'])->name('dashboard');
 
 Route::get('/', function () {

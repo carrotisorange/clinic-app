@@ -11,7 +11,7 @@
               <h4 class="card-title"> Manage Accounts</h4>
             </div>
             <div class="card-body">
-              <div class="table-responsive">
+              <div class="">
                 <table class="table">
                   <thead class="">
                     <th>#</th>

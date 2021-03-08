@@ -100,14 +100,14 @@
         <li class="active">
           <a href="/manage-accounts">
             <i class="nc-icon nc-single-02"></i>
-            <p>Manage Accounts</p>
+            <p>Manage Users</p>
           </a>
         </li>
         @else
         <li>
           <a href="/manage-accounts">
             <i class="nc-icon nc-single-02"></i>
-            <p>Manage Accounts</p>
+            <p>Manage Users</p>
           </a>
         </li>
         @endif

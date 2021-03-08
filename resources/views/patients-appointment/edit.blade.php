@@ -7,9 +7,13 @@
     @include('layouts.notifications')
 
     <p class="col-md-12 text-right">
-      <a href="/patient/{{ $patient->patient_id }}/appointment/{{ $appointment->appointment_id }}/export" class="btn btn-dark text-white" > Print All Diagnosis</a>
-        <a href="#" class="btn btn-dark text-white" data-toggle="modal" data-target="#viewpresciptionsmodal" data-whatever="@mdo"> View All Prescriptions</a>
-        <a href="#" class="btn btn-dark text-white" data-toggle="modal" data-target="#viewdiagnosismodal" data-whatever="@mdo"> View All Diagnosis</a>
+     @if($diagnosis->count()>0)
+     <a href="/patient/{{ $patient->patient_id }}/appointment/{{ $appointment->appointment_id }}/export" class="btn btn-dark text-white" > Export All Diagnosis</a>
+     <a href="#" class="btn btn-dark text-white" data-toggle="modal" data-target="#viewdiagnosismodal" data-whatever="@mdo"> View Previous Diagnosis ({{ $diagnosis->count() }})</a>
+     @endif
+     @if($prescriptions->count()>0)
+     <a href="#" class="btn btn-dark text-white" data-toggle="modal" data-target="#viewpresciptionsmodal" data-whatever="@mdo"> View Previous Prescriptions ({{ $prescriptions->count() }})</a>
+     @endif
         <a href="#" class="btn btn-dark text-white" data-toggle="modal" data-target="#adddiagnosismodal" data-whatever="@mdo"> Add New Diagnosis</a>
     </p>
     <div class="row">
@@ -126,48 +130,66 @@
                 <label>Height (Ft)</label>
                 <input form="diagnosisForm" type="number" step="0.001" class="form-control" name="height" placeholder ="6.2" required>
             </div>
+
+            <div class="form-group">
+              <label>BMI</label>
+              <input form="diagnosisForm" type="number" step="0.001" class="form-control" name="bmi" placeholder ="6.2" required>
+          </div>
+
+          <div class="form-group">
+            <label>Cardiac Rate (CR)</label>
+            <input form="diagnosisForm" type="number" step="0.001" class="form-control" name="cr" placeholder ="6.2" required>
+        </div>
+        <div class="form-group">
+          <label>Respiratory Rate (RR)</label>
+          <input form="diagnosisForm" type="number" step="0.001" class="form-control" name="rr" placeholder ="6.2" required>
+      </div>
         </div>
             <div class="col-md-6">
               
+            @if($medicines->count()<=0)
+              <p class="text-danger text-danger">No available medicines. <a href="/medicine-inventory">Add now</a></p>
+            @else
             <div class="form-group">
-                <div class="col">
-                    <p class="">
-                        Issue Medicine
-                      <span id='delete_bill' class="btn btn-danger"> Remove</span>
-                    <span id="add_bill" class="btn btn-primary"> Add</span>     
-                    </p>
-                  </div>
-                
-                
-                        <div class="">
-                        <table class = "table" id="table_bill">
-                           <thead>
-                            <tr>
-                              <th>#</th>
-                              <th>Medicine</th>
-                              <th>Qty</th>
-                     
-                              
-                          </tr>
-                           </thead>
-                                <input form="diagnosisForm" type="hidden" id="no_of_bills" name="no_of_bills" >
-                            <tr id='bill1'></tr>
-                        </table>
-                      </div>
+              <div class="col">
+                  <p class="">
+                      Issue Medicine
+                    <span id='delete_bill' class="btn btn-danger"> Remove</span>
+                  <span id="add_bill" class="btn btn-primary"> Add</span>     
+                  </p>
+                </div>
+              
+              
+                      <div class="">
+                      <table class = "table" id="table_bill">
+                         <thead>
+                          <tr>
+                            <th>#</th>
+                            <th>Medicine</th>
+                            <th>Qty</th>
                    
-                
-            <div class="form-group">
-                <label>Note</label>
-                <textarea form="diagnosisForm" class="form-control" name="note" placeholder ="e.g., 1 Mefenamic after every eating." required></textarea>
-            </div>
-            </div>
+                            
+                        </tr>
+                         </thead>
+                              <input form="diagnosisForm" type="hidden" id="no_of_bills" name="no_of_bills" >
+                          <tr id='bill1'></tr>
+                      </table>
+                    </div>
+                 
+              
+          <div class="form-group">
+              <label>Note</label>
+              <textarea form="diagnosisForm" class="form-control" name="note" placeholder ="e.g., 1 Mefenamic after every eating." required></textarea>
+          </div>
+          </div>
+            @endif
             </div>
         </div>
   
         </div>
         <div class="modal-footer">
           
-            <button form="diagnosisForm" type="submit" class="btn btn-dark text-white"> Submit</button>
+            <button form="diagnosisForm" type="submit" class="btn btn-dark text-white"onclick="return confirm('Are you sure you want perform this action?'); this.disabled = true;"> Submit</button>
             </div>
     </div>
     </div>
@@ -194,16 +216,25 @@
                         Symptoms
                       </th>
                       <th>
-                        Temperature
+                        Tmp
                       </th>
                       <th>
-                        Blood pressure
+                        BP
                       </th>
                       <th>
-                        Weight
+                        Wt
                       </th>
                       <th>
-                        Height
+                        Ht
+                      </th>
+                      <th>
+                        BMI
+                      </th>
+                      <th>
+                        CR
+                      </th>
+                      <th>
+                        RR
                       </th>
                       <th>
                           Diagnosed on
@@ -219,6 +250,9 @@
                           <td>{{ $item->blood_pressure }}</td>
                           <td>{{ $item->weight }}Kg</td>
                           <td>{{ $item->height }}Ft</td>
+                          <td>{{ $item->bmi }}Ft</td>
+                          <td>{{ $item->rr }}Ft</td>
+                          <td>{{ $item->cr }}Ft</td>
                           <td>{{ Carbon\Carbon::parse($item->created_at)->format('M d, Y') }}</td>
                       @endforeach
                     </tbody>
@@ -291,7 +325,7 @@
       $(document).ready(function(){
       var k=1;
       $("#add_bill").click(function(){
-        $('#bill'+k).html("<th>"+ (k) +"</th><td><select class='form-control' name='medicine"+k+"' form='diagnosisForm' id='medicine"+k+"' required><option value='' selected>Please select one</option>@foreach ($medicines as $item)<option value='{{ $item->medicine_id }}'>{{ $item->name }} ({{ $item->quantity}})</option>@endforeach</select>  <td><input  class='form-control'  form='diagnosisForm' name='qty"+k+"' id='qty"+k+"' type='number' min='1' value='1' required></td>");
+        $('#bill'+k).html("<th>"+ (k) +"</th><td><select class='form-control' name='medicine"+k+"' form='diagnosisForm' id='medicine"+k+"' required><option value='' selected>Please select one</option>@foreach ($medicines as $item)@if($item->quantity<=0)<option value='{{ $item->medicine_id }}' disabled>{{ $item->name }} (<span class='text-danger'>Out of Stock</span>)</option> @else<option value='{{ $item->medicine_id }}'>{{ $item->name }} ({{ $item->quantity}})</option>@endif @endforeach</select>  <td><input  class='form-control'  form='diagnosisForm' name='qty"+k+"' id='qty"+k+"' type='number' min='1' value='1' required></td>");
        $('#table_bill').append('<tr id="bill'+(k+1)+'"></tr>');
        k++;
        

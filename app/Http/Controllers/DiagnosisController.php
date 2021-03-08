@@ -47,6 +47,9 @@ class DiagnosisController extends Controller
         $diagnosis->blood_pressure = $request->blood_pressure;
         $diagnosis->weight = $request->weight;
         $diagnosis->height = $request->height;
+        $diagnosis->bmi = $request->bmi;
+        $diagnosis->cr = $request->cr;
+        $diagnosis->rr = $request->rr;
         $diagnosis->save();
       
         for ($i=1; $i < $request->no_of_bills; $i++) { 

@@ -7,7 +7,7 @@
   @include('layouts.notifications')
 
   <p class="col-md-12 text-right">
-    <a href="#" class="btn btn-dark text-white" data-toggle="modal" data-target="#viewinventorymodal" data-whatever="@mdo"> View Inventory</a>
+    <a href="#" class="btn btn-dark text-white" data-toggle="modal" data-target="#viewinventorymodal" data-whatever="@mdo"> View All Inventory</a>
       <a href="#" class="btn btn-dark text-whit" data-toggle="modal" data-target="#addmedicinemodal" data-whatever="@mdo"> Add New Medicine</a>
   </p>
     <div class="row">
@@ -17,18 +17,18 @@
               {{-- <h4 class="card-title"> Medicine Inventory</h4> --}}
             </div>
             <div class="card-body">
-              <div class="table-responsive">
+              <div class="">
                 @if ($medicines->count() <= 0)
                 <p class="text-danger text-center">No medicines found!</p>
                @else
                 <table class="table">
                   <thead class="">
                     <th>#</th>
-                    <th>Name</th>
-                    <th>Brand</th>
-                    <th>Mg</th>
-                    <th>Qty</th>
-                    <th>Expiration</th>
+                    <th>Drugs</th>
+                    <th>Batch No</th>
+                    
+                  
+                    <th>Expiry Date</th>
                     <th></th>
                   </thead>
                   <tbody>
@@ -36,12 +36,18 @@
                     @foreach ($medicines as $item)
                     <tr>
                         <th>{{ $ctr++ }}</th>
-                        <td>{{ $item->name }}</td>
+                        <td>{{ $item->name.' '.$item->mg }}mg 
+                           @if($item->quantity <= 0)
+                          <span class="text-danger"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Out of Stock</span>
+                          @else
+                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $item->quantity }}
+                          @endif
+                        </td>
                         <td>{{ $item->brand }}</td>
-                        <td>{{ $item->mg }}</td>
-                        <td>{{ $item->quantity }}</td>
+                     
+                   
                         <td>{{ Carbon\Carbon::parse($item->expiration)->format('M d, Y') }}</td>
-                        <th> <a href="/medicine/{{ $item->medicine_id }}/edit" class="btn btn-dark text-whit" > Edit</a></th>
+                        <th> <a href="/medicine/{{ $item->medicine_id }}/edit" class="btn btn-dark text-whit" > View</a></th>
                     </tr>
                     @endforeach
                   </tbody>
@@ -74,7 +80,7 @@
             <input form="medicineForm" type="text" class="form-control" name="name" required>
         </div>
         <div class="form-group">
-          <label>Brand</label>
+          <label>Batch No</label>
           <input form="medicineForm" type="text" class="form-control" name="brand" required>
       </div>
 
@@ -89,7 +95,7 @@
     </div>
 
     <div class="form-group">
-      <label>Expiration</label>
+      <label>Expiration Date</label>
       <input form="medicineForm" type="date" class="form-control" name="expiration" required>
   </div>
 
@@ -106,7 +112,7 @@
   <div class="modal-dialog modal-lg" role="document">
   <div class="modal-content">
       <div class="modal-header">
-      <h5 class="modal-title" id="exampleModalLabel" >Inventory</h5>
+      <h5 class="modal-title" id="exampleModalLabel" >All Medicine Inventory</h5>
 
       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>

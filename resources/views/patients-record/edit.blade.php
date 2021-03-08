@@ -9,7 +9,7 @@
 
         <p class="col-md-12 text-right">
            @if($appointments->count() > 0)
-           <a href="/patient/{{ $patient->patient_id }}/appointments" class="btn btn-dark text-whit" > VIew All Appointment</a>
+           <a href="/patient/{{ $patient->patient_id }}/appointments" class="btn btn-dark text-whit" > VIew All Appointments ({{ $appointments->count() }})</a>
            @endif
             <a href="#" class="btn btn-dark text-whit" data-toggle="modal" data-target="#appointmentmodal" data-whatever="@mdo"> Add New Appointment</a>
         </p>
@@ -127,7 +127,7 @@
   
          
           <div class="form-group">
-            <label>Select a doctor</label>
+            <label>Select a doctor</label><small class="text-danger">@if($doctors->count()<=0) (No available doctors) <a href="/doctors">Add now</a> @endif</small>
             <select class="form-control" form="appointmentForm" name="doctor_id" required>
                @foreach ($doctors as $item)
                 <option value="{{ $item->doctor_id }}">Dr. {{ $item->name }} | {{ $item->profession }}</option>
@@ -137,7 +137,7 @@
 
         
         <div class="form-group">
-            <label>Description</label>
+            <label>Purpose</label>
             <textarea form="appointmentForm" type="text" class="form-control" name="desc" value="" required ></textarea>
         </div>
     

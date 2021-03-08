@@ -25,8 +25,8 @@
           <div class="card-footer ">
             <hr>
             <div class="stats">
-              {{-- <i class="fa fa-refresh"></i>
-              Update Now --}}
+              <i class="fa fa-refresh"></i>
+              Total Count
             </div>
           </div>
         </div>
@@ -43,7 +43,7 @@
               <div class="col-7 col-md-8">
                 <div class="numbers">
                   <p class="card-category">Appointments</p>
-                  <p class="card-title">{{ $appointments->count() }}<p>
+                  <p class="card-title">{{ $pending_appointments }}<p>
                 </div>
               </div>
             </div>
@@ -51,8 +51,8 @@
           <div class="card-footer ">
             <hr>
             <div class="stats">
-              {{-- <i class="fa fa-calendar-o"></i>
-              Last day --}}
+              <i class="fa fa-calendar-o"></i>
+              Pending Appointments
             </div>
           </div>
         </div>
@@ -77,8 +77,8 @@
           <div class="card-footer ">
             <hr>
             <div class="stats">
-              {{-- <i class="fa fa-clock-o"></i>
-              In the last hour --}}
+              <i class="fa fa-clock-o"></i>
+              As of {{ Carbon\Carbon::now()->format('M d, Y') }}
             </div>
           </div>
         </div>
@@ -89,12 +89,12 @@
             <div class="row">
               <div class="col-5 col-md-4">
                 <div class="icon-big text-center icon-warning">
-                  <i class="nc-icon nc-single-02 text-primary"></i>
+                  <i class="nc-icon nc-single-02"></i>
                 </div>
               </div>
               <div class="col-7 col-md-8">
                 <div class="numbers">
-                  <p class="card-category">Accounts</p>
+                  <p class="card-category">Users</p>
                   <p class="card-title">{{ $accounts->count() }}<p>
                 </div>
               </div>
@@ -103,8 +103,8 @@
           <div class="card-footer ">
             <hr>
             <div class="stats">
-              {{-- <i class="fa fa-refresh"></i>
-              Update now --}}
+              <i class="fa fa-refresh"></i>
+              Total Count
             </div>
           </div>
         </div>
@@ -120,9 +120,9 @@
            @if($appointments->count() <=0 )
             <p class="text-danger text-center">No appointments found!</p>
            @else
-           <div class="table-responsive">
+           <div class="">
             <table class="table">
-              <thead class=" text-primary">
+              <thead class="">
                 <th>#</th>
                     <th>
                       Date
@@ -173,10 +173,10 @@
            @if($doctors->count() <=0 )
             <p class="text-danger text-center">No doctors found!</p>
            @else
-           <div class="">
+        
       
               <table class="table">
-                <thead class=" text-primary">
+                <thead class="">
                     <th>#</th>
                   <th>
                     Name
@@ -196,23 +196,23 @@
               </table>
      
            @endif
-          </div>
+       
         </div>
         </div>
     </div>
     <div class="col-md-6">
       <div class="card">
         <div class="card-header">
-          <h4 class="card-title"> Accounts</h4>
+          <h4 class="card-title"> Users</h4>
         </div>
         <div class="card-body">
          @if($accounts->count() <=0 )
-          <p class="text-danger text-center">No accounts found!</p>
+          <p class="text-danger text-center">No users found!</p>
          @else
    
-          <div class="">
+       
             <table class="table">
-              <thead class=" text-primary">
+              <thead class="">
                 <th>#</th>
                 <th>
                   Name
@@ -238,7 +238,7 @@
             </table>
         
          @endif
-        </div>
+  
       </div>
     </div>
   </div>

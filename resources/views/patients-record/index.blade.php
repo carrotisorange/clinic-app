@@ -11,8 +11,8 @@
         <div class="input-group">
             <input type="text" class="form-control" name="search" placeholder="Search" value="{{ Session::get('search') }}">
             <div class="input-group-append">
-              <button class="btn btn-primary" type="submit">
-                <i class="fas fa-search fa-sm"></i>
+              <button class="btn btn-dark" type="submit">
+               Search
               </button>
             </div>
         </div>
@@ -38,7 +38,7 @@
             
             <div class="card-body">
            
-              <div class="table-responsive">
+              <div class="">
                 @if ($patients->count() <= 0)
                   <p class="text-danger text-center">No patients found!</p>
                 @else
@@ -69,10 +69,10 @@
                         <th>{{ $ctr++ }}</th>
                         <td>{{ $item->name }}</td>
                         <td>{{ $item->gender }}</td>
-                        <td>{{ $item->birthdate }}</td>
+                        <td>{{ Carbon\Carbon::parse($item->birthdate)->format('M d, Y') }}</td>
                         <td>{{ $item->address }}</td>
                         <td>{{ $item->contact_number }}</td>
-                        <th> <a href="/patient/{{ $item->patient_id }}" class="btn btn-dark text-whit" > View</a></th>
+                        <th> <a href="/patient/{{ $item->patient_id }}" class="btn btn-dark text-white" > View</a></th>
                     @endforeach
                   </tbody>
                 </table>

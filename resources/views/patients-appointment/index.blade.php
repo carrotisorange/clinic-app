@@ -11,7 +11,7 @@
               {{-- <h4 class="card-title"> Patients Appointments</h4> --}}
             </div>
             <div class="card-body">
-              <div class="table-responsive">
+              <div class="">
                 @if ($appointments->count() <= 0)
                 <p class="text-danger text-center">No appointments found!</p>
                @else
@@ -31,7 +31,7 @@
                       Status
                     </th>
                     <th>
-                        Description
+                        Purpose
                     </th>
                     <th></th>
                   

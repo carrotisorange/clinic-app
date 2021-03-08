@@ -22,6 +22,10 @@ class CreateDiagnosesTable extends Migration
             $table->string('blood_pressure');
             $table->double('weight', 8, 2);
             $table->double('height', 8, 2);
+            
+            $table->double('bmi', 8, 2);
+            $table->double('cr', 8, 2);
+            $table->double('rr', 8, 2);
             $table->timestamps();
         });
     }

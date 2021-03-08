@@ -16,7 +16,7 @@
               {{-- <h4 class="card-title"> Doctors</h4> --}}
             </div>
             <div class="card-body">
-              <div class="table-responsive">
+              <div class="">
                 @if ($doctors->count() <= 0)
                 <p class="text-danger text-center">No doctors found!</p>
                @else

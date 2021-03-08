@@ -48,9 +48,9 @@
                     </a>
                 @endif
 
-                {{-- <a class="ml-3 btn btn-dark" href="/register">
+                <a class="ml-3 btn btn-dark" href="/register">
                     {{ __('Register') }}
-                </a> --}}
+                </a>
 
                 <x-button class="ml-3">
                     {{ __('Log in') }}
