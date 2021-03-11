@@ -22,12 +22,16 @@ class MedicineController extends Controller
 
          $medicines = Medicine::all();
 
-         $stocks = DB::table('medicines')
+           $stocks = DB::table('medicines')
          ->join('stocks', 'medicine_id', 'medicine_id_fk')
          ->join('users', 'user_id_fk', 'id')
-         ->select('*', 'stocks.created_at as date', 'users.name as user', 'medicines.name as medicine')
+         ->select('*', 'stocks.created_at as date', 'users.name as user', 'medicines.name as medicine') 
+         ->groupBy('medicines.medicine_id')
          ->orderBy('stocks.created_at', 'desc')
-         ->get();
+               ->get()
+                ->groupBy(function($item) {
+                    return \Carbon\Carbon::parse($item->created_at)->timestamp;
+                });
 
       return view('medicine-inventory.index', compact('medicines', 'stocks'));
     }

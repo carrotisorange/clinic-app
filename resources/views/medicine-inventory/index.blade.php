@@ -119,29 +119,44 @@
       </button>
       </div>
       <div class="modal-body">
-        <div class="">
+        <div class="row table-responsive">
           @if ($stocks->count() <= 0)
           <p class="text-danger text-center">No records found!</p>
          @else
-         <table class="table">
-           <th>Date</th>
-           <th>Description</th>
-           <th>User</th>
-         @foreach ($stocks as $item)
-       
+         <table class="table table-bordered table-hover">
+          @foreach ($stocks as $day => $stock_list)
+          <?php $ctr=1;?>
+          <thead>
+            <tr>
+              <th>{{ Carbon\Carbon::parse($day)->addDay()->format('M d, Y')}}({{ $stock_list->count() }})</th>
+              <th></th>
+              <th></th>
+            </tr>
+           <tr>
+            <th>Date</th>
+            <th>Description</th>
+            <th>User</th>
+           </tr>
+          </thead>
           <tbody>
-            <td>
-              {{ Carbon\Carbon::parse($item->date)->format('M d, Y').', '.Carbon\Carbon::parse($item->date)->toTimeString() }}
-            </td>
-            <td>
-             ({{ $item->medicine }}) {{ $item->desc }}
-            </td>
-            <td>{{ $item->user }}</td>
+            @foreach ($stock_list as $item)
+            <tr>
+              <td>
+                {{ Carbon\Carbon::parse($item->date)->format('M d, Y') }}
+              </td>
+              <td>
+               ({{ $item->medicine }}) {{ $item->desc }}
+              </td>
+              <td>{{ $item->user }}</td>
+            </tr>
+            @endforeach
           </tbody>
-       
-         @endforeach
-        </table>
-          @endif
+                <tr>
+                  <th></th>
+                </tr>
+          @endforeach
+      </table>
+    @endif
         </div>
       </div>
       <div class="modal-footer">
@@ -152,4 +167,3 @@
   </div>
 </div>  
 @endsection
-
