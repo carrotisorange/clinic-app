@@ -1,6 +1,6 @@
 @extends('layouts.main')
 
-@section('title', $patient->name)
+@section('title', 'Patients Record/'.$patient->name.'/Appointment/Edit')
 
 @section('content')
 <div class="content">
@@ -66,7 +66,7 @@
                    <br>
                    <div>
                        
-                    <x-label for="address" :value="__('Description')" />
+                    <x-label for="address" :value="__('Purpose')" />
     
                     <textarea type="text" class="form-control" name="desc" required >{{ $appointment->desc }}</textarea>
                    
@@ -100,52 +100,79 @@
                 <p><b>Patient:</b> {{ $patient->name }}</p>
                 <hr>
                 <div class="row">
-                <div class="col-md-6">
+                  <div class="col-md-1">
+
+                  </div>
+                <div class="col-md-5">
                 <form id="diagnosisForm" action="/patient/{{ $appointment->patient_id_fk }}/appointment/{{ $appointment->appointment_id }}/diagnosis/store" method="POST">
                     @csrf
                 </form>
       
                 <div class="form-group">
-                  <label>Symptoms</label>
-                  <textarea form="diagnosisForm" type="text" class="form-control" name="symptoms" placeholder="Patient's condition is getting better." required></textarea>
+                 <div class="row">
+                    <div class="col-md-12">
+                      <label>Symptoms</label>
+                  <textarea form="diagnosisForm" type="text" class="form-control" name="symptoms" required></textarea>
+                    </div>
+                 </div>
+
               </div>
       
               <div class="form-group">
-                <label>Temperature (C)</label>
-                <input form="diagnosisForm" type="number" step="0.001" class="form-control" name="temperature" placeholder="36.1" required>
+                <div class="row">
+                  <div class="col-md-6">
+                    <label>Temperature (C)</label>
+                    <input form="diagnosisForm" type="number" step="0.001" class="form-control" name="temperature" required>
+                   </div>
+    
+                    <div class="col-md-6">
+                      <label>Blood pressure</label>
+                      <input form="diagnosisForm" type="text" class="form-control" name="blood_pressure" required>
+                    </div>
+                </div>
             </div>
     
-            <div class="form-group">
-                <label>Blood pressure</label>
-                <input form="diagnosisForm" type="text" class="form-control" name="blood_pressure" placeholder="120/80" required>
-            </div>
+          
     
             <div class="form-group">
-                <label>Weight (Kg)</label>
-                <input form="diagnosisForm" type="number" step="0.001" class="form-control" name="weight" placeholder="80" required>
-            </div>
-    
-            
-            <div class="form-group">
-                <label>Height (Ft)</label>
-                <input form="diagnosisForm" type="number" step="0.001" class="form-control" name="height" placeholder ="6.2" required>
-            </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <label>Weight (Kg)</label>
+                  <input form="diagnosisForm" type="number" step="0.001" class="form-control" name="weight" id="weight" oninput="autoComputeBMI()" required>
+                  
+                 </div>
+                 <div class="col-md-4">
+                  <label>Height (Ft)</label>
+                  <input form="diagnosisForm" type="number" step="0.001" class="form-control" name="height"  id="height" oninput="autoComputeBMI()" required>
+                 </div>
 
-            <div class="form-group">
-              <label>BMI</label>
-              <input form="diagnosisForm" type="number" step="0.001" class="form-control" name="bmi" placeholder ="6.2" required>
-          </div>
+                 <div class="col-md-4">
+                  <label>BMI (W/H)</label>
+                  <input form="diagnosisForm" type="number" step="0.001" class="form-control" id="bmi" name="bmi" required readonly>
+                 </div>
+              </div>
+            </div>
+    
+    
 
           <div class="form-group">
-            <label>Cardiac Rate (CR)</label>
-            <input form="diagnosisForm" type="number" step="0.001" class="form-control" name="cr" placeholder ="6.2" required>
+            <div class="row">
+              <div class="col-md-6">
+                <label>Cardiac Rate (CR)</label>
+                <input form="diagnosisForm" type="number" step="0.001" class="form-control" name="cr" required>
+              </div>
+              <div class="col-md-6">
+                <label>Respiratory Rate (RR)</label>
+                <input form="diagnosisForm" type="number" step="0.001" class="form-control" name="rr" required>
+            </div>
+              </div>
+            </div>
+           
         </div>
-        <div class="form-group">
-          <label>Respiratory Rate (RR)</label>
-          <input form="diagnosisForm" type="number" step="0.001" class="form-control" name="rr" placeholder ="6.2" required>
-      </div>
+        <div class="col-md-1">
+
         </div>
-            <div class="col-md-6">
+            <div class="col-md-4">
               
             @if($medicines->count()<=0)
               <p class="text-danger text-danger">No available medicines. <a href="/medicine-inventory">Add now</a></p>
@@ -154,36 +181,52 @@
               <div class="col">
                   <p class="">
                       Issue Medicine
-                    <span id='delete_bill' class="btn btn-danger"> Remove</span>
-                  <span id="add_bill" class="btn btn-primary"> Add</span>     
+                    <x-button id='delete_bill' class="btn btn-dark"> Remove</x-button>
+                  <x-button id="add_bill" class="btn btn-dark"> Add</x-button>     
                   </p>
                 </div>
               
               
-                      <div class="">
+                      <div class="row">
                       <table class = "table" id="table_bill">
                          <thead>
                           <tr>
                             <th>#</th>
                             <th>Medicine</th>
-                            <th>Qty</th>
+                            <th>Quantity</th>
                    
                             
                         </tr>
                          </thead>
-                              <input form="diagnosisForm" type="hidden" id="no_of_bills" name="no_of_bills" >
+                              <x-input form="diagnosisForm" type="hidden" id="no_of_bills" name="no_of_bills" />
                           <tr id='bill1'></tr>
                       </table>
                     </div>
                  
               
-          <div class="form-group">
+          
+          </div>
+            @endif
+            </div>
+            <div class="col-md-1">
+
+            </div>
+        </div>
+        <div class="row">
+          <div class="col-md-10 mx-auto">
+            <div class="form-group">
+              <label>Diagnosis</label>
+              <textarea form="diagnosisForm" class="form-control" name="diagnosis" required></textarea>
+          </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-10 mx-auto">
+            <div class="form-group">
               <label>Note</label>
               <textarea form="diagnosisForm" class="form-control" name="note" placeholder ="e.g., 1 Mefenamic after every eating." required></textarea>
           </div>
           </div>
-            @endif
-            </div>
         </div>
   
         </div>
@@ -208,55 +251,60 @@
         </div>
         
             <div class="modal-body">
-            <div class="">
-                <table class="table">
+            <div class="row table-responsive">
+              <div class="col-md-11 mx-auto">
+                <table class="table table-bordered">
                     <thead class="">
                         <th>#</th>
+                        <th width="120">Date</th>
                       <th>
                         Symptoms
                       </th>
-                      <th>
+                      <th width="60">
                         Tmp
                       </th>
-                      <th>
+                      <th width="60">
                         BP
                       </th>
-                      <th>
+                      <th width="60">
                         Wt
                       </th>
-                      <th>
+                      <th width="60">
                         Ht
                       </th>
-                      <th>
+                      <th width="60">
                         BMI
                       </th>
-                      <th>
+                      <th width="60">
                         CR
                       </th>
-                      <th>
+                      <th width="60">
                         RR
                       </th>
                       <th>
-                          Diagnosed on
+                          Diagnosis
                       </th>
+                     
                     </thead>
                     <tbody>
                         <?php $ctr_diagnosis=1; ?>
                       @foreach ($diagnosis as $item)
                       <tr>
                           <th>{{ $ctr_diagnosis++ }}</th>
+                          <td>{{ Carbon\Carbon::parse($item->created_at)->format('M d, Y') }}</td>
                           <td>{{ $item->symptoms }}</td>
                           <td>{{ $item->temperature }}C</td>
                           <td>{{ $item->blood_pressure }}</td>
                           <td>{{ $item->weight }}Kg</td>
                           <td>{{ $item->height }}Ft</td>
-                          <td>{{ $item->bmi }}Ft</td>
-                          <td>{{ $item->rr }}Ft</td>
-                          <td>{{ $item->cr }}Ft</td>
-                          <td>{{ Carbon\Carbon::parse($item->created_at)->format('M d, Y') }}</td>
+                          <td>{{ $item->bmi }}</td>
+                          <td>{{ $item->rr }}</td>
+                          <td>{{ $item->cr }}</td>
+                          <td>{{ $item->diagnosis }}</td>
                       @endforeach
                     </tbody>
                 </table>
+            </div>
             </div>
         </div>
         <div class="modal-footer">
@@ -341,5 +389,15 @@
       });
   });
   </script>
-@endsection
 
+<script>
+  function autoComputeBMI(){
+    var height = document.getElementById('height').value;
+    var weight = document.getElementById('weight').value;
+
+    document.getElementById('bmi').value = eval(weight)/eval(height);
+
+   
+  }
+</script>
+@endsection

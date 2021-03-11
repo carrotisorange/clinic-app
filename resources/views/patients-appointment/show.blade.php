@@ -1,6 +1,6 @@
 @extends('layouts.main')
 
-@section('title', $patient->name)
+@section('title', 'Patients Record/'.$patient->name.'/Appointments')
 
 @section('content')
 <div class="content">

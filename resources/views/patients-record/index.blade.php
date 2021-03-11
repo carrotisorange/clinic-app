@@ -5,26 +5,30 @@
 @section('content')
 <div class="content">
   <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-12 text-right">
+     
+      <a href="#" class="btn btn-dark text-white" data-toggle="modal" data-target="#patientmodal" data-whatever="@mdo"> Add New Patient</a>
+  
+  </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
       <form  action="/patients-record" method="GET" >
         @csrf
         <div class="input-group">
-            <input type="text" class="form-control" name="search" placeholder="Search" value="{{ Session::get('search') }}">
-            <div class="input-group-append">
+            <x-input type="text" class="form-control"  name="search" placeholder="Search name, mobile, address..." value="{{ Session::get('search') }}" required autofocus/>
+            {{-- <div class="input-group-append">
               <button class="btn btn-dark" type="submit">
                Search
               </button>
-            </div>
+            </div> --}}
         </div>
     </form>
     
     </div>
-    <div class="col-md-6 text-right">
-     
-        <a href="#" class="btn btn-dark text-whit" data-toggle="modal" data-target="#patientmodal" data-whatever="@mdo"> Add New Patient</a>
-    
-    </div>
+   
   </div>
+
   @if(Session::get('search'))
 <p class="text-left"> <b><span class="">  Showing </span> <span class="text-primary">{{ $patients->count() }}</span> patient/s.</b></p>
 @endif

@@ -25,7 +25,7 @@ class PatientController extends Controller
             $patients = Patient::all();
         }else{
             $patients = DB::table('patients')
-            ->whereRaw("concat(name, ' ', contact_number) like '%$request->search%' ")
+            ->whereRaw("concat(name, ' ', contact_number, ' ', address, ' ', address) like '%$request->search%' ")
             ->get(); 
         }  
 

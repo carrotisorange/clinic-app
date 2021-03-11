@@ -50,6 +50,7 @@ class DiagnosisController extends Controller
         $diagnosis->bmi = $request->bmi;
         $diagnosis->cr = $request->cr;
         $diagnosis->rr = $request->rr;
+        $diagnosis->diagnosis = $request->diagnosis;
         $diagnosis->save();
       
         for ($i=1; $i < $request->no_of_bills; $i++) { 
