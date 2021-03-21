@@ -70,7 +70,7 @@ class DiagnosisController extends Controller
             $stock->medicine_id_fk = $request->input('medicine'.$i);
             $stock->user_id_fk = Auth::user()->id;
             $stock->qty_changed = $request->input('qty'.$i);
-            $stock->desc = $request->input('qty'.$i).' stock is removed to the inventory.';
+            $stock->desc = 'removed';
             $stock->save();
     
         }

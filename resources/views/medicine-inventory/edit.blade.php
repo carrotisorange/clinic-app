@@ -87,10 +87,10 @@
          
             <tbody>
               <td>
-                {{ Carbon\Carbon::parse($item->date)->format('M d, Y').', '.Carbon\Carbon::parse($item->date)->toTimeString() }}
+                {{ Carbon\Carbon::parse($item->date)->format('M d, Y') }}
               </td>
               <td>
-                {{ $item->desc }}
+                {{ $item->desc }} ({{ $item->qty_changed }})
               </td>
               <td>{{ $item->user }}</td>
             </tbody>

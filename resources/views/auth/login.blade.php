@@ -26,8 +26,9 @@
 html,body{
 background-image: url({{ URL::asset('/paper-dashboard-master/assets/img/bg.jpg') }});
 position: fixed;
-        left: 0;
-        top: 0;
+        left: 0%;
+        background-repeat: no-repeat;
+		bottom: 17%;
         width: 100%;
         height: 100%;
           background-size: cover;
@@ -113,6 +114,7 @@ margin-left: 4px;
     </style>
 </head>
 <body>
+	<br><br>
 <div class="container">
     
 	<div class="d-flex justify-content-center h-100">
@@ -126,11 +128,14 @@ margin-left: 4px;
             
                  
 				<h3>Sign In</h3>
-				{{-- <div class="d-flex justify-content-end social_icon">
-					<span><i class="fab fa-facebook-square"></i></span>
+				<div class="d-flex justify-content-end social_icon">
+				
+						<img src="{{ asset('/paper-dashboard-master/assets/img/sudipenrhulogo.png') }}" />
+				
+					{{-- <span><i class="fab fa-facebook-square"></i></span>
 					<span><i class="fab fa-google-plus-square"></i></span>
-					<span><i class="fab fa-twitter-square"></i></span>
-				</div> --}}
+					<span><i class="fab fa-twitter-square"></i></span> --}}
+				</div>
 			</div>
 			<div class="card-body">
                 <form method="POST" action="{{ route('login') }}">

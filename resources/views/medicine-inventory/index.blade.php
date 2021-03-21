@@ -7,7 +7,7 @@
   @include('layouts.notifications')
 
   <p class="col-md-12 text-right">
-    <a href="#" class="btn btn-dark text-white" data-toggle="modal" data-target="#viewinventorymodal" data-whatever="@mdo"> View All Inventory</a>
+    <a href="#" class="btn btn-dark text-white" data-toggle="modal" data-target="#viewinventorymodal" data-whatever="@mdo"> View Current Inventory</a>
       <a href="#" class="btn btn-dark text-whit" data-toggle="modal" data-target="#addmedicinemodal" data-whatever="@mdo"> Add New Medicine</a>
   </p>
     <div class="row">
@@ -40,7 +40,7 @@
                            @if($item->quantity <= 0)
                           <span class="text-danger"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Out of Stock</span>
                           @else
-                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $item->quantity }}
+                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;({{ $item->quantity }})
                           @endif
                         </td>
                         <td>{{ $item->brand }}</td>
@@ -86,12 +86,12 @@
 
         <div class="form-group">
           <label>Mg</label>
-          <input form="medicineForm" type="number" step="0.001" class="form-control" name="mg" required>
+          <input form="medicineForm" type="number" step="0.001" min="1" class="form-control" name="mg" required>
       </div>
 
       <div class="form-group">
         <label>Quantity</label>
-        <input form="medicineForm"  type="number" class="form-control" name="quantity" required>
+        <input form="medicineForm"  type="number" class="form-control" min="1" name="quantity" required>
     </div>
 
     <div class="form-group">
@@ -109,54 +109,54 @@
 </div>
 
 <div class="modal fade" id="viewinventorymodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"  data-backdrop="static" data-keyboard="false">
-  <div class="modal-dialog modal-lg" role="document">
+  <div class="modal-dialog modal-xl" role="document">
   <div class="modal-content">
       <div class="modal-header">
-      <h5 class="modal-title" id="exampleModalLabel" >All Medicine Inventory</h5>
+      <h5 class="modal-title" id="exampleModalLabel" >Current Inventory ({{ Carbon\Carbon::now()->format('M, Y') }})</h5>
 
       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
       </button>
       </div>
       <div class="modal-body">
-        <div class="row table-responsive">
-          @if ($stocks->count() <= 0)
-          <p class="text-danger text-center">No records found!</p>
-         @else
-         <table class="table table-bordered table-hover">
-          @foreach ($stocks as $day => $stock_list)
-          <?php $ctr=1;?>
-          <thead>
-            <tr>
-              <th>{{ Carbon\Carbon::parse($day)->addDay()->format('M d, Y')}}({{ $stock_list->count() }})</th>
-              <th></th>
-              <th></th>
-            </tr>
-           <tr>
-            <th>Date</th>
-            <th>Description</th>
-            <th>User</th>
-           </tr>
-          </thead>
-          <tbody>
-            @foreach ($stock_list as $item)
-            <tr>
-              <td>
-                {{ Carbon\Carbon::parse($item->date)->format('M d, Y') }}
-              </td>
-              <td>
-               ({{ $item->medicine }}) {{ $item->desc }}
-              </td>
-              <td>{{ $item->user }}</td>
-            </tr>
-            @endforeach
-          </tbody>
-                <tr>
-                  <th></th>
-                </tr>
-          @endforeach
-      </table>
-    @endif
+       
+        <div class="row">
+           <div class="col-md-12 mx-auto">
+            <table class="table table-bordered">
+              <tr>
+          
+                <th>Drug</th>
+                <th>Expiry Date</th>
+                <th>Dates</th>
+              
+              </tr>
+             <tbody>
+               @foreach ($medicines as $medicine)
+               <tr>
+                <td>
+                  {{ $medicine->name }} {{ $medicine->mg }}mg 
+                  @if($medicine->quantity <= 0)
+                  <span class="text-danger">(Out of Stock)</span>
+                  @else
+                  ({{ $medicine->quantity }})
+                  @endif
+                </td>
+                <td>
+                  {{ Carbon\Carbon::parse($medicine->expiration)->format('M-d') }} 
+                </td>
+                @foreach ($stocks as $stock)
+                @if($medicine->medicine_id === $stock->medicine_id)
+                 <td>{{ Carbon\Carbon::parse($stock->date)->format('M/d') }} ({{ $stock->qty }})</td>
+               
+                @endif
+               
+              @endforeach
+             
+               </tr>
+               @endforeach
+             </tbody>
+            </table>
+           </div>
         </div>
       </div>
       <div class="modal-footer">

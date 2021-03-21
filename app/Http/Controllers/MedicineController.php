@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Session;
 use DB;
 use Auth;
+use Carbon\Carbon;
 
 class MedicineController extends Controller
 {
@@ -20,18 +21,20 @@ class MedicineController extends Controller
     {
         Session::put('selected', 'medicine-inventory');
 
-         $medicines = Medicine::all();
+        $medicines = Medicine::all();
 
-           $stocks = DB::table('medicines')
-         ->join('stocks', 'medicine_id', 'medicine_id_fk')
-         ->join('users', 'user_id_fk', 'id')
-         ->select('*', 'stocks.created_at as date', 'users.name as user', 'medicines.name as medicine') 
-         ->groupBy('medicines.medicine_id')
-         ->orderBy('stocks.created_at', 'desc')
-               ->get()
-                ->groupBy(function($item) {
-                    return \Carbon\Carbon::parse($item->created_at)->timestamp;
-                });
+        $stocks = Stock::where('stocks.created_at', '>=', Carbon::now()->month())
+       ->join('medicines', 'medicine_id_fk', 'medicine_id')
+       ->whereMonth('stocks.created_at', Carbon::now()->month)
+                            ->groupBy(DB::raw("DATE_FORMAT(stocks.created_at, '%Y-%m-%d')"))
+                            ->orderBy('stocks.created_at', 'ASC')
+                            ->get(array(
+                                DB::raw('medicines.name as drug'),
+                                DB::raw('Date(stocks.created_at) as date'),
+                                DB::raw('sum(stocks.qty_changed) as "qty"'),
+                                DB::raw('medicine_id_fk as "medicine_id"'),
+                                
+                            ));
 
       return view('medicine-inventory.index', compact('medicines', 'stocks'));
     }
@@ -92,6 +95,7 @@ class MedicineController extends Controller
         ->select('*', 'stocks.created_at as date', 'users.name as user')
         ->where('medicine_id', $medicine_id)
         ->orderBy('stocks.created_at', 'desc')
+        ->groupBy('stock_id')
         ->get();
 
         return view('medicine-inventory.edit', compact('medicine', 'stocks'));
@@ -116,7 +120,7 @@ class MedicineController extends Controller
            $stock->medicine_id_fk = $medicine_id;
            $stock->user_id_fk = Auth::user()->id;
            $stock->qty_changed = $diff;
-           $stock->desc = $diff.' stock is added to the inventory.';
+           $stock->desc = 'added';
            $stock->save();
        }else{
         $diff = ($current_stock - $request->qty);
@@ -124,7 +128,7 @@ class MedicineController extends Controller
             $stock->medicine_id_fk = $medicine_id;
             $stock->user_id_fk = Auth::user()->id;
             $stock->qty_changed = $diff;
-            $stock->desc = $diff.' stock is removed to the inventory.';
+            $stock->desc = 'removed';
             $stock->save();
        }
 

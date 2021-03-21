@@ -94,6 +94,8 @@ class AppointmentController extends Controller
      */
     public function edit($patient_id, $appointment_id)
     {
+        Session::put('selected', 'patients-appointment');
+        
          $appointment = Appointment::findOrFail($appointment_id);
 
           $appointment_info =  DB::table('appointments')
