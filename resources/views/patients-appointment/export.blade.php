@@ -65,9 +65,9 @@
             <br>
             <span>BP={{ $item->blood_pressure }}, Height={{ $item->height }}</span>   
             <br>
-            <span>PR=&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;, BMI=&nbsp;&nbsp;&nbsp;&nbsp;</span>
+            <span>CR={{ $item->cr }}, RR={{ $item->rr }}</span>
             <br>
-            <span>RR=&nbsp;&nbsp;&nbsp;&nbsp;</span>      
+            <span>BMI={{ $item->bmi }}</span>      
               <hr>
             @endforeach
           
