@@ -76,7 +76,10 @@
                         <td>{{ Carbon\Carbon::parse($item->birthdate)->format('M d, Y') }}</td>
                         <td>{{ $item->address }}</td>
                         <td>{{ $item->contact_number }}</td>
-                        <th> <a href="/patient/{{ $item->patient_id }}" class="btn btn-dark text-white" > View</a></th>
+                        <th> 
+                          <a title="view this patient" href="/patient/{{ $item->patient_id }}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-eye"></i></a>
+                        </th>
+                        
                     @endforeach
                   </tbody>
                 </table>

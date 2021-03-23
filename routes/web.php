@@ -88,6 +88,46 @@ Route::get('/manage-accounts', function(){
     return view('manage-accounts.index', compact('users'));
 })->middleware(['auth']);
 
+Route::delete('/user/{user_id}', function($user_id){
+    
+    User::findOrFail($user_id)->delete();
+
+    return back()->with('success', 'User is deleted successfully!');
+})->middleware(['auth']);
+
+Route::get('/user/{user_id}/edit', function($user_id){
+    
+    $user = User::findOrFail($user_id);
+
+    return view('manage-accounts.edit', compact('user'));
+})->middleware(['auth']);
+
+Route::put('/user/{user_id}/update', function(Request $request, $user_id){
+
+    if($request->password === null){
+        $user =  User::find($user_id);
+        $user->name=$request->name;
+        $user->email=$request->email;
+        $user->account_type=$request->account_type;
+        $user->save();
+    
+        return redirect()->back()->with('success', 'Changes saved.');
+    
+     }else{
+        $user =  User::find($user_id);
+        $user->name=$request->name;
+        $user->email=$request->email;
+        $user->account_type=$request->account_type;
+        $user->password = Hash::make($request->password);
+        $user->save();
+     }
+
+    return back()->with('success','Changes saved.');
+
+})->middleware(['auth']);
+
+
+
 
 //routes for the user's profile
 Route::get('/profile/{account_id}', function($account_id){

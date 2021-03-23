@@ -47,7 +47,10 @@
                      
                    
                         <td>{{ Carbon\Carbon::parse($item->expiration)->format('M d, Y') }}</td>
-                        <th> <a href="/medicine/{{ $item->medicine_id }}/edit" class="btn btn-dark text-whit" > View</a></th>
+                        <th> 
+                          <a title="edit this drug this appointment" href="/medicine/{{ $item->medicine_id }}/edit" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-edit"></i></a>
+                        </th>
+                       
                     </tr>
                     @endforeach
                   </tbody>
@@ -128,7 +131,9 @@
                 <th>Drug</th>
                 <th>Expiry Date</th>
                 <th>Dates</th>
-              
+                @for ($i = 1; $i <= Carbon\Carbon::now()->daysInMonth; $i++)
+                  <th>{{ $i }}</th>
+                @endfor
               </tr>
              <tbody>
                @foreach ($medicines as $medicine)

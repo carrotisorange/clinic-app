@@ -46,7 +46,11 @@
                       <td>{{ $item->doctor_name }}</td>
                       <td>{{ $item->status }}</td>
                       <td>{{ $item->desc }}</td>
-                      <th> <a href="/patient/{{ $item->patient_id }}/appointment/{{ $item->appointment_id }}" class="btn btn-dark text-whit" > View</a></th>
+                      
+                      <th> 
+                        <a title="view this appointment" href="/patient/{{ $item->patient_id }}/appointment/{{ $item->appointment_id }}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-eye"></i></a>
+                     
+                      </th>
                     </tr>
                     @endforeach
                   </tbody>
