@@ -7,7 +7,7 @@
   <div class="row">
     <div class="col-md-12 text-right">
      
-      <a href="#" class="btn btn-dark text-white" data-toggle="modal" data-target="#patientmodal" data-whatever="@mdo"> Add New Patient</a>
+      <a href="#" class="btn btn-dark" data-toggle="modal" data-target="#patientmodal" data-whatever="@mdo"><i class="fas fa-plus"></i> Add New Patient</a>
   
   </div>
   </div>

@@ -7,8 +7,8 @@
   @include('layouts.notifications')
 
   <p class="col-md-12 text-right">
-    <a href="#" class="btn btn-dark text-white" data-toggle="modal" data-target="#viewinventorymodal" data-whatever="@mdo"> View Current Inventory</a>
-      <a href="#" class="btn btn-dark text-whit" data-toggle="modal" data-target="#addmedicinemodal" data-whatever="@mdo"> Add New Medicine</a>
+    <a href="/medicine/inventory/month/{{ Carbon\Carbon::now()->month }}/year/{{ Carbon\Carbon::now()->year }}" class="btn btn-dark"><i class="fas fa-eye"></i>  View Current Inventory</a>
+      <a href="#" class="btn btn-dark" data-toggle="modal" data-target="#addmedicinemodal" data-whatever="@mdo"><i class="fas fa-plus"></i> Add New Drug</a>
   </p>
     <div class="row">
         <div class="col-md-12">
@@ -24,7 +24,7 @@
                 <table class="table">
                   <thead class="">
                     <th>#</th>
-                    <th>Drugs</th>
+                    <th>Drug</th>
                     <th>Batch No</th>
                     
                   
@@ -36,7 +36,7 @@
                     @foreach ($medicines as $item)
                     <tr>
                         <th>{{ $ctr++ }}</th>
-                        <td>{{ $item->name.' '.$item->mg }}mg 
+                        <td>{{ $item->name }} &nbsp;&nbsp;&nbsp;&nbsp;{{ $item->mg }}mg 
                            @if($item->quantity <= 0)
                           <span class="text-danger"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Out of Stock</span>
                           @else
@@ -67,7 +67,7 @@
   <div class="modal-dialog modal-md" role="document">
   <div class="modal-content">
       <div class="modal-header">
-      <h5 class="modal-title" id="exampleModalLabel" >Medicine Information</h5>
+      <h5 class="modal-title" id="exampleModalLabel" >Enter Drug Information</h5>
 
       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
@@ -79,7 +79,7 @@
           </form>
 
           <div class="form-group">
-            <label>Name</label>
+            <label>Drug</label>
             <input form="medicineForm" type="text" class="form-control" name="name" required>
         </div>
         <div class="form-group">
@@ -111,64 +111,5 @@
   </div>
 </div>
 
-<div class="modal fade" id="viewinventorymodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"  data-backdrop="static" data-keyboard="false">
-  <div class="modal-dialog modal-xl" role="document">
-  <div class="modal-content">
-      <div class="modal-header">
-      <h5 class="modal-title" id="exampleModalLabel" >Current Inventory ({{ Carbon\Carbon::now()->format('M, Y') }})</h5>
-
-      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-      </button>
-      </div>
-      <div class="modal-body">
-       
-        <div class="row">
-           <div class="col-md-12 mx-auto">
-            <table class="table table-bordered">
-              <tr>
-          
-                <th>Drug</th>
-                <th>Expiry Date</th>
-                <th>Dates</th>
-                @for ($i = 1; $i <= Carbon\Carbon::now()->daysInMonth; $i++)
-                  <th>{{ $i }}</th>
-                @endfor
-              </tr>
-             <tbody>
-               @foreach ($medicines as $medicine)
-               <tr>
-                <td>
-                  {{ $medicine->name }} {{ $medicine->mg }}mg 
-                  @if($medicine->quantity <= 0)
-                  <span class="text-danger">(Out of Stock)</span>
-                  @else
-                  ({{ $medicine->quantity }})
-                  @endif
-                </td>
-                <td>
-                  {{ Carbon\Carbon::parse($medicine->expiration)->format('M-d') }} 
-                </td>
-                @foreach ($stocks as $stock)
-                @if($medicine->medicine_id === $stock->medicine_id)
-                 <td>{{ Carbon\Carbon::parse($stock->date)->format('M/d') }} ({{ $stock->qty }})</td>
-               
-                @endif
-               
-              @endforeach
-             
-               </tr>
-               @endforeach
-             </tbody>
-            </table>
-           </div>
-        </div>
-      </div>
-      <div class="modal-footer">
-        
-        <button type="button" class="btn-dark btn" data-dismiss="modal"> Close</button>
-          </div>
-  </div>
-  </div>
-</div>  
+ 
 @endsection

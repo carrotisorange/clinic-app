@@ -27,25 +27,32 @@
           <p class="text-center">OFFICE OF THE MUNICIPAL HEALTH OFFICE</p>
       <div class="row">
         <div class="col-md-12">
-            <b>Name:</b> {{ $patient->name }}
-            <br>
-            <b>Gender:</b> {{ $patient->gender }}
-            <br>
-            <b>Civil Status: </b>{{ $patient->civil_status }}
-            <br>
-            <b>Birthdate:</b> {{ Carbon\Carbon::parse($patient->birthdate)->format('M d, Y') }}
-            <br>
-            <b>Educational Attaintment:</b> {{ $patient->educational_attainment }}
-            <br>
-            <b>Address:</b> {{ $patient->address }}
-            <br>
-            <b>PhilHealth:</b> (Y) (N)
-            <br>
-            <b>No:</b> (M) (D) (LGU/SPONSORED) (Lifetime) (IPP)
-            <br>
-            <b>Father's Name:</b> {{ $patient->fathers_name }}
-            <br>
-            <b>Mother's Name:</b> {{ $patient->mothers_name }}
+            <table class="table table-condensed table-borderless">
+            <tr>
+                <th>Name: {{ $patient->name }} </th>
+           
+                <th>Gender: {{ $patient->gender }}</th>
+              
+                <th>Birthdate: {{ Carbon\Carbon::parse($patient->birthdate)->format('M d, Y') }}</th>
+            
+            </tr>
+            <tr>
+                <th>Address: {{ $patient->address }}</th>
+                <th></th>
+                <th>Father's Name: {{ $patient->fathers_name }}</th>
+            </tr>
+            <tr>
+                <th>PhilHealth: (Y) (N) (NHTS)</th>
+                <th></th>
+                <th>Mother's Name: {{ $patient->mothers_name }}</th>
+            </tr>
+            <tr>
+                <th>No: (M) (D) (LGU/SPONSORED) (Lifetime) (IPP)</th>
+                <th>Education Attainment: {{ $patient->educational_attainment }}</th>
+                <th>Civill Status: {{ $patient->civil_status }}</th>
+            </tr>
+            </table>
+           
 
             </div>
         </div>
@@ -53,21 +60,40 @@
        <div class="row">
         <div class="col-md-12">
             @foreach ($diagnosis as $item)
-            <span>Date: {{ Carbon\Carbon::parse($item->created_at)->format('M d, Y') }}, Age: {{ Carbon\Carbon::now()->year-Carbon\Carbon::parse($patient->birthdate)->year }},   A></span> 
-            <br>
-            <br>
-            S> {{ $item->symptoms }}
-            <br>
-            <br>
-            <br>
-            <br>
-            O> <span>Temp={{ $item->temperature }}, Weight={{ $item->weight }}</span>   
-            <br>
-            <span>BP={{ $item->blood_pressure }}, Height={{ $item->height }}</span>   
-            <br>
-            <span>CR={{ $item->cr }}, RR={{ $item->rr }}</span>
-            <br>
-            <span>BMI={{ $item->bmi }}</span>      
+            <table class="table table-condensed table-borderless">
+                <tr>
+                    <th>Date: {{ Carbon\Carbon::parse($item->created_at)->format('M d, Y') }}</th>
+                    <th>Age: {{ Carbon\Carbon::now()->year-Carbon\Carbon::parse($patient->birthdate)->year }}</th>
+                    <th></th>
+                    <th>A></th>
+                </tr>
+                <tr>
+                 <th> S> {{ $item->symptoms }}</th>
+                </tr>
+                <tr>
+                    <th></th>
+                </tr>
+                <tr>
+                    <th></th>
+                </tr>
+                <tr>
+                    <th></th>
+                </tr>
+                <tr>
+                    <th>O> Temp={{ $item->temperature }}, Weight={{ $item->weight }}</th>
+                </tr>
+                <tr>
+                    <th>BP={{ $item->blood_pressure }}, Height={{ $item->height }}</th>
+                </tr>
+                <tr>
+                    <th>CR={{ $item->cr }}, RR={{ $item->rr }}</th>
+                </tr>
+                <tr>
+                    <th>BMI={{ $item->bmi }}</th>
+                </tr>
+            </table>
+           
+             
               <hr>
             @endforeach
           

@@ -23,6 +23,17 @@ class MedicineController extends Controller
 
         $medicines = Medicine::all();
 
+      return view('medicine-inventory.index', compact('medicines'));
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function inventory($month, $year)
+    {
+       
         $stocks = Stock::where('stocks.created_at', '>=', Carbon::now()->month())
        ->join('medicines', 'medicine_id_fk', 'medicine_id')
        ->whereMonth('stocks.created_at', Carbon::now()->month)
@@ -36,19 +47,12 @@ class MedicineController extends Controller
                                 
                             ));
 
-      return view('medicine-inventory.index', compact('medicines', 'stocks'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         //
     }
-
     /**
      * Store a newly created resource in storage.
      *

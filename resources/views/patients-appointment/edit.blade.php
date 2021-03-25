@@ -8,13 +8,13 @@
 
     <p class="col-md-12 text-right">
      @if($diagnosis->count()>0)
-     <a href="/patient/{{ $patient->patient_id }}/appointment/{{ $appointment->appointment_id }}/export" class="btn btn-dark text-white" > Export All Diagnosis</a>
-     <a href="#" class="btn btn-dark text-white" data-toggle="modal" data-target="#viewdiagnosismodal" data-whatever="@mdo"> View Previous Diagnosis ({{ $diagnosis->count() }})</a>
+     <a href="/patient/{{ $patient->patient_id }}/appointment/{{ $appointment->appointment_id }}/export" class="btn btn-dark text-white" ><i class="fas fa-download"></i> Export Diagnosis</a>
+     <a href="#" class="btn btn-dark text-white" data-toggle="modal" data-target="#viewdiagnosismodal" data-whatever="@mdo"><i class="fas fa-eye"></i> View Diagnosis ({{ $diagnosis->count() }})</a>
      @endif
      @if($prescriptions->count()>0)
-     <a href="#" class="btn btn-dark text-white" data-toggle="modal" data-target="#viewpresciptionsmodal" data-whatever="@mdo"> View Previous Prescriptions ({{ $prescriptions->count() }})</a>
+     <a href="#" class="btn btn-dark text-white" data-toggle="modal" data-target="#viewpresciptionsmodal" data-whatever="@mdo"><i class="fas fa-eye"></i> View Prescriptions ({{ $prescriptions->count() }})</a>
      @endif
-        <a href="#" class="btn btn-dark text-white" data-toggle="modal" data-target="#adddiagnosismodal" data-whatever="@mdo"> Add New Diagnosis</a>
+        <a href="#" class="btn btn-dark text-white" data-toggle="modal" data-target="#adddiagnosismodal" data-whatever="@mdo"><i class="fas fa-plus"></i> Add New Diagnosis</a>
     </p>
     <div class="row">
         <div class="col-md-12">
@@ -76,7 +76,7 @@
  
                 
                     <br>
-                    <p class="text-right"><button type="submit" class="btn btn-dark">Update</button></p>
+                    <p class="text-right"><button type="submit" class="btn btn-dark"><i class="fas fa-check"></i> Update</button></p>
                 </form>
             </div>
           </div>
@@ -96,9 +96,9 @@
         </div>
         
             <div class="modal-body">
-                <p><b>Date:</b> {{ Carbon\Carbon::now() }}</p>
+                {{-- <p><b>Date:</b> {{ Carbon\Carbon::now() }}</p>
                 <p><b>Patient:</b> {{ $patient->name }}</p>
-                <hr>
+                <hr> --}}
                 <div class="row">
                   <div class="col-md-1">
 
@@ -181,8 +181,8 @@
               <div class="col">
                   <p class="">
                       Issue Medicine
-                    <x-button id='delete_bill' class="btn btn-dark"> Remove</x-button>
-                  <x-button id="add_bill" class="btn btn-dark"> Add</x-button>     
+                    <button id='delete_bill' class="btn btn-dark"><i class="fas fa-minus"></i> Remove</button>
+                  <button id="add_bill" class="btn btn-dark"><i class="fas fa-plus"></i> Add</button>     
                   </p>
                 </div>
               
@@ -232,7 +232,7 @@
         </div>
         <div class="modal-footer">
           
-            <button form="diagnosisForm" type="submit" class="btn btn-dark text-white"onclick="return confirm('Are you sure you want perform this action?'); this.disabled = true;"> Submit</button>
+            <button form="diagnosisForm" type="submit" class="btn btn-dark text-white"onclick="return confirm('Are you sure you want perform this action?'); this.disabled = true;"><i class="fas fa-check"></i> Submit</button>
             </div>
     </div>
     </div>
@@ -309,7 +309,7 @@
         </div>
         <div class="modal-footer">
           
-            <button type="button" class="btn-dark btn" data-dismiss="modal"> Close</button>
+            <button type="button" class="btn-dark btn" data-dismiss="modal"><i class="fas fa-times"></i> Close</button>
             </div>
     </div>
     </div>
@@ -327,8 +327,8 @@
         </div>
         
             <div class="modal-body">
-            <div class="">
-                <table class="table">
+              <div class="col-md-11 mx-auto">
+                <table class="table table-bordered">
                     <thead class="">
                         <th>#</th>
                       <th>
@@ -361,7 +361,7 @@
         </div>
         <div class="modal-footer">
           
-            <button type="button" class="btn-dark btn" data-dismiss="modal"> Close</button>
+            <button type="button" class="btn-dark btn" data-dismiss="modal"><i class="fas fa-times"></i> Close</button>
             </div>
     </div>
     </div>

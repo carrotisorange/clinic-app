@@ -137,7 +137,7 @@
                       Status
                     </th>
                     <th>
-                        Description
+                        Purpose
                     </th>
                     <th></th>
               

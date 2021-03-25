@@ -7,7 +7,7 @@
   @include('layouts.notifications')
 
   <p class="col-md-12 text-right">
-      <a href="#" class="btn btn-dark text-whit" data-toggle="modal" data-target="#adddoctormodal" data-whatever="@mdo"> Add New Doctor</a>
+      <a href="#" class="btn btn-dark" data-toggle="modal" data-target="#adddoctormodal" data-whatever="@mdo"><i class="fas fa-plus"></i> Add New Doctor</a>
   </p>
     <div class="row">
         <div class="col-md-12">

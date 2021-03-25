@@ -7,8 +7,8 @@
 <div class="content">
     @include('layouts.notifications')
     <p class="col-md-12 text-right">
-      <a href="/medicine-inventory" class="btn btn-dark text-white"> Back</a>
-    <a href="#" class="btn btn-dark text-white" data-toggle="modal" data-target="#viewinventorymodal" data-whatever="@mdo"> View Inventory</a>
+      <a href="/medicine-inventory" class="btn btn-dark"><i class="fas fa-arrow-left"></i> Back</a>
+    <a href="#" class="btn btn-dark" data-toggle="modal" data-target="#viewinventorymodal" data-whatever="@mdo"><i class="fas fa-eye"></i> View Inventory</a>
     </p>
     <div class="row">
      
@@ -55,7 +55,7 @@
                 
                 
                     <br>
-                    <p class="text-right"><button type="submit" class="btn btn-dark">Update</button></p>
+                    <p class="text-right"><button type="submit" class="btn btn-dark"><i class="fas fa-check"></i> Update</button></p>
                 </form>
             </div>
           </div>
