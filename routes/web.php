@@ -65,7 +65,7 @@ Route::post('/doctor/store', 'DoctorController@store')->middleware(['auth']);
 Route::get('/medicine-inventory', 'MedicineController@index')->middleware(['auth']);
 Route::post('/medicine/store', 'MedicineController@store')->middleware(['auth']);
 Route::get('/medicine/{medicine_id}/edit', 'MedicineController@edit')->middleware(['auth']);
-Route::get('/medicine/inventory/month/{month}/year/{year}', 'MedicineController@inventory')->middleware(['auth']);
+Route::get('medicine/inventory', 'MedicineController@inventory');
 Route::put('/medicine/{medicine_id}/update', 'MedicineController@update')->middleware(['auth']);
 
 //routes for appointments

@@ -8,13 +8,13 @@
             <li><a href="https://www.creative-tim.com/license" target="_blank">Licenses</a></li>
           </ul>
         </nav> --}}
-        <div class="credits ml-auto">
+        {{-- <div class="credits ml-auto">
           <span class="copyright">
             © <script>
               document.write(new Date().getFullYear())
             </script>, made with <i class="fa fa-heart heart"></i> by Kurimaw
           </span>
-        </div>
+        </div> --}}
       </div>
     </div>
   </footer>

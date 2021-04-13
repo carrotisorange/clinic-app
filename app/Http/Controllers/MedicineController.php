@@ -24,6 +24,7 @@ class MedicineController extends Controller
         $medicines = Medicine::all();
 
       return view('medicine-inventory.index', compact('medicines'));
+    
     }
 
     /**
@@ -31,21 +32,31 @@ class MedicineController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function inventory($month, $year)
+    public function inventory(Request $request)
     {
-       
-        $stocks = Stock::where('stocks.created_at', '>=', Carbon::now()->month())
-       ->join('medicines', 'medicine_id_fk', 'medicine_id')
-       ->whereMonth('stocks.created_at', Carbon::now()->month)
-                            ->groupBy(DB::raw("DATE_FORMAT(stocks.created_at, '%Y-%m-%d')"))
-                            ->orderBy('stocks.created_at', 'ASC')
-                            ->get(array(
-                                DB::raw('medicines.name as drug'),
-                                DB::raw('Date(stocks.created_at) as date'),
-                                DB::raw('sum(stocks.qty_changed) as "qty"'),
-                                DB::raw('medicine_id_fk as "medicine_id"'),
+
+         $stocks = DB::table('stocks')
+        ->join('medicines', 'medicine_id', 'medicine_id_fk')
+        ->orderBy('stocks.created_at', 'asc')
+        ->get()
+        ->groupBy(function($item) {
+            return \Carbon\Carbon::parse($item->created_at)->timestamp;
+        });
+  
+    //      $stocks = Stock::where('stocks.created_at', '>=', Carbon::now()->month())
+    //    ->join('medicines', 'medicine_id_fk', 'medicine_id')
+    //    ->whereMonth('stocks.created_at', Carbon::now()->month)
+    //                         // ->groupBy(DB::raw("DATE_FORMAT(stocks.created_at, '%Y-%m-%d')"))
+    //                         ->orderBy('stocks.created_at', 'ASC')
+    //                         ->get(array(
+    //                             DB::raw('medicines.name as drug'),
+    //                             DB::raw('Date(stocks.created_at) as date'),
+    //                             DB::raw('sum(stocks.qty_changed) as "qty"'),
+    //                             DB::raw('medicine_id_fk as "medicine_id"'),
                                 
-                            ));
+    //                         ));
+
+    return view('medicine-inventory.inventory', compact('stocks'));
 
     }
 

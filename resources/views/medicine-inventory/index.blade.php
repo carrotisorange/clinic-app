@@ -7,7 +7,7 @@
   @include('layouts.notifications')
 
   <p class="col-md-12 text-right">
-    <a href="/medicine/inventory/month/{{ Carbon\Carbon::now()->month }}/year/{{ Carbon\Carbon::now()->year }}" class="btn btn-dark"><i class="fas fa-eye"></i>  View Current Inventory</a>
+    <a href="/medicine/inventory/" class="btn btn-dark"><i class="fas fa-eye"></i>  View Current Inventory</a>
       <a href="#" class="btn btn-dark" data-toggle="modal" data-target="#addmedicinemodal" data-whatever="@mdo"><i class="fas fa-plus"></i> Add New Drug</a>
   </p>
     <div class="row">
