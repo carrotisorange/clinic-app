@@ -1,16 +1,10 @@
 @extends('layouts.main')
 
-@section('title','Medicine Inventory')
+@section('title','Dashboard Inventory')
 
 @section('content')
 <div class="content">
-  @include('layouts.notifications')
 
-  <p class="col-md-12 text-right">
-    <a href="/medicine/dashboard/" class="btn btn-dark"><i class="fas fa-table"></i>  View dashboard</a>
-    <a href="/medicine/inventory/" class="btn btn-dark"><i class="fas fa-eye"></i>  View current inventory</a>
-      <a href="#" class="btn btn-dark" data-toggle="modal" data-target="#addmedicinemodal" data-whatever="@mdo"><i class="fas fa-plus"></i> Add New Drug</a>
-  </p>
     <div class="row">
         <div class="col-md-12">
           <div class="card">
@@ -26,32 +20,34 @@
                   <thead class="">
                     <th>#</th>
                     <th>Drug</th>
-                    <th>Batch No</th>
-                    
+                    <th>Stock</th>
                   
-                    <th>Expiry Date</th>
-                    <th></th>
+
                   </thead>
                   <tbody>
                     <?php $ctr=1; ?>
                     @foreach ($medicines as $item)
                     <tr>
                         <th>{{ $ctr++ }}</th>
-                        <td>{{ $item->name }} &nbsp;&nbsp;&nbsp;&nbsp;{{ $item->mg }}mg 
-                           @if($item->quantity <= 0)
-                          <span class="text-danger"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Out of Stock</span>
-                          @else
-                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;({{ $item->quantity }})
-                          @endif
-                        </td>
-                        <td>{{ $item->brand }}</td>
-                     
-                   
-                        <td>{{ Carbon\Carbon::parse($item->expiration)->format('M d, Y') }}</td>
-                        <th> 
-                          <a title="edit this drug this appointment" href="/medicine/{{ $item->medicine_id }}/edit" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-edit"></i></a>
-                        </th>
+                        <td>{{ $item->name }} </td>
                        
+                        <?php $days_before_expiration = Carbon\Carbon::parse(Carbon\Carbon::now())->diffInDays($item->expiration); ?>
+
+                        <td>
+                           @if($item->quantity<=0)
+                           <span class="text-danger">NO STOCK</span>
+                           @elseif($days_before_expiration<=0)
+                           <span class="text-danger">EXPIRED</span>
+                           @elseif($days_before_expiration<=30)
+                           <span class="text-danger">EXPIRATION NEAR</span>
+                           
+                           @else
+                            {{ $item->quantity }}
+                           @endif
+                         
+
+                        </td>
+
                     </tr>
                     @endforeach
                   </tbody>
@@ -105,12 +101,12 @@
 
       </div>
       <div class="modal-footer">
-        
+
           <button form="medicineForm" type="submit" class="btn btn-dark text-white" onclick="return confirm('Are you sure you want perform this action?'); this.disabled = true;"> Submit</button>
           </div>
   </div>
   </div>
 </div>
 
- 
+
 @endsection

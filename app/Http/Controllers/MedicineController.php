@@ -37,11 +37,16 @@ class MedicineController extends Controller
 
          $stocks = DB::table('stocks')
         ->join('medicines', 'medicine_id', 'medicine_id_fk')
+        ->selectRaw('*, sum(qty_changed) as pulled_out')
+        ->where('stocks.desc', 'removed')
+        ->whereMonth('stocks.created_at', Carbon::now()->month)
         ->orderBy('stocks.created_at', 'asc')
-        ->get()
-        ->groupBy(function($item) {
-            return \Carbon\Carbon::parse($item->created_at)->timestamp;
-        });
+        ->groupBy('medicine_id')
+        
+        ->get();
+        // ->groupBy(function($item) {
+        //     return \Carbon\Carbon::parse($item->created_at)->timestamp;
+        // });
   
     //      $stocks = Stock::where('stocks.created_at', '>=', Carbon::now()->month())
     //    ->join('medicines', 'medicine_id_fk', 'medicine_id')
@@ -58,6 +63,17 @@ class MedicineController extends Controller
 
     return view('medicine-inventory.inventory', compact('stocks'));
 
+    }
+
+    public function dashboard(Request $request)
+    {
+
+        Session::put('selected', 'medicine-inventory');
+
+         $medicines = DB::table('medicines')->where('quantity','<=',100)->get();
+
+      return view('medicine-inventory.dashboard', compact('medicines'));
+    
     }
 
     public function create()

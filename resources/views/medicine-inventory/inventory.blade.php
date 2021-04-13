@@ -4,33 +4,38 @@
 
 @section('content')
 <div class="content">
+  <p class="text-center"><b>{{ Carbon\Carbon::now()->format('M, Y') }}</b></p>
   <table class="table table-condensed table-bordered table-hover">
-    <thead>
-    <tr>
-    
-      <th>#</th>
-      <th>Drug</th>
-      <th>Quantity</th>
-      <th>Description</th>
-    </tr>
-  </thead>
-    @foreach ($stocks as $day => $stock)
+
+    {{-- @foreach ($stocks as $day => $stock) --}}
+
+<thead>
 
 
-  <tr>
+  {{-- <tr>
     <th colspan="4" class="text-center">{{ Carbon\Carbon::parse($day)->addDay()->format('M d Y') }} ({{ $stock->count() }}) </th>
+</tr> --}}
+<tr>
+  
+  <th>#</th>
+  <th>Drug</th>
+  <th>pulled out</th>
+  <th>Remaining</th>
 </tr>
+
+</thead>
+
 <?php $ctr=1;?>
 
-      @foreach ($stock as $item)
+      @foreach ($stocks as $item)
      <tr>
        <td>{{ $ctr++ }}</td>
         <td>{{ $item->name }}</td>
-        <td>{{ $item->qty_changed }}</td>
-        <td>{{ $item->desc }}</td>
+        <td>{{ $item->pulled_out }}</td>
+        <td>{{ $item->quantity }}</td>
     </tr>
-      @endforeach
-     
+      {{-- @endforeach --}}
+    
         
     @endforeach
   
