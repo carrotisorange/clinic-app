@@ -44,7 +44,29 @@
       </table>
     </div>
     <div class="col-md-6">
-      <p class="text-center"><b>Medicine Transactions</b></p>
+      <div class="row">
+        <div class="col-md-12">
+          <form  action="/medicine/inventory/" method="GET" >
+            @csrf
+            <div class="input-group">
+                <x-input type="date" class="form-control"  name="search" value="{{ Session::get('search') }}" required autofocus/>
+                <div class="input-group-append">
+                  <button class="btn btn-dark" type="submit">
+                   Search
+                  </button>
+                </div>
+            </div>
+        </form>
+        
+        </div>
+       
+      </div>
+      <br>
+
+     @if($transactions->count()<=0)
+     <p class="text-center text-danger"><b>No transactions found!</b></p>
+     @endif
+    
       <table class="table table-condensed table-bordered table-hover">
     
         @foreach ($transactions as $day => $transaction)
@@ -53,7 +75,7 @@
     
     
       <tr>
-        <th colspan="4" class="text-center">{{ Carbon\Carbon::parse($day)->addDay()->format('M d, Y') }} ({{ $transaction->count() }}) </th>
+        <th colspan="4" class="text-center">{{ Carbon\Carbon::parse($day)->format('M d, Y') }} ({{ $transaction->count() }}) </th>
     </tr>
     <tr>
       

@@ -17,8 +17,11 @@ class MedicineController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+
+        $request->session()->forget('search');
+
         Session::put('selected', 'medicine-inventory');
 
         $medicines = Medicine::all();
@@ -34,7 +37,8 @@ class MedicineController extends Controller
      */
     public function inventory(Request $request)
     {
-
+        // return Carbon::parse($request->search)->format('Y-m-d');
+    
          $stocks = DB::table('stocks')
         ->join('medicines', 'medicine_id', 'medicine_id_fk')
         ->selectRaw('*, sum(qty_changed) as pulled_out')
@@ -48,16 +52,35 @@ class MedicineController extends Controller
         //     return \Carbon\Carbon::parse($item->created_at)->timestamp;
         // });
 
-        $transactions = DB::table('stocks')
-        ->join('medicines', 'medicine_id', 'medicine_id_fk')
-        ->selectRaw('*, sum(qty_changed) as pulled_out')
-        ->orderBy('stocks.created_at', 'asc')
-        ->groupBy('medicine_id')
-        ->groupBy('desc')
-        ->get()
-        ->groupBy(function($item) {
-            return \Carbon\Carbon::parse($item->created_at)->timestamp;
-        });
+        Session::put('search', $request->search);
+
+        if(Session::get('search') ==  ''){
+            $transactions = DB::table('stocks')
+            ->join('medicines', 'medicine_id', 'medicine_id_fk')
+            ->selectRaw('*, sum(qty_changed) as pulled_out, stocks.created_at date')
+         
+            
+            ->orderBy('stocks.created_at', 'asc')
+            ->groupBy('medicine_id')
+            ->groupBy('desc')
+            ->get()
+            ->groupBy(function($item) {
+                return \Carbon\Carbon::parse($item->date)->format('Y-m-d');
+            });
+        }else{
+            $transactions = DB::table('stocks')
+            ->join('medicines', 'medicine_id', 'medicine_id_fk')
+            ->selectRaw('*, sum(qty_changed) as pulled_out, stocks.created_at date')
+         
+            ->whereDate('stocks.created_at',Carbon::parse($request->search)->format('Y-m-d'))
+            ->orderBy('stocks.created_at', 'asc')
+            ->groupBy('medicine_id')
+            ->groupBy('desc')
+            ->get()
+            ->groupBy(function($item) {
+                return \Carbon\Carbon::parse($item->date)->format('Y-m-d');
+            });
+        }
   
     //      $stocks = Stock::where('stocks.created_at', '>=', Carbon::now()->month())
     //    ->join('medicines', 'medicine_id_fk', 'medicine_id')
