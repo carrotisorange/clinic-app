@@ -7,7 +7,7 @@
   @include('layouts.notifications')
 
   <p class="col-md-12 text-right">
-    <a href="/medicine/dashboard/" class="btn btn-dark"><i class="fas fa-table"></i>  View dashboard</a>
+    {{-- <a href="/medicine/dashboard/" class="btn btn-dark"><i class="fas fa-table"></i>  View dashboard</a> --}}
     <a href="/medicine/inventory/" class="btn btn-dark"><i class="fas fa-eye"></i>  View current inventory</a>
       <a href="#" class="btn btn-dark" data-toggle="modal" data-target="#addmedicinemodal" data-whatever="@mdo"><i class="fas fa-plus"></i> Add New Drug</a>
   </p>

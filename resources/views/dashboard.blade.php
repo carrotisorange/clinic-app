@@ -167,6 +167,57 @@
       </div>
     </div>
     <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title"> Medicine Inventory</h4>
+          </div>
+          <div class="card-body">
+            @if ($medicines->count() <= 0)
+            <p class="text-danger text-center">No medicines found!</p>
+           @else
+            <table class="table">
+              <thead class="">
+                <th>#</th>
+                <th>Drug</th>
+                <th>Stock</th>
+              
+
+              </thead>
+              <tbody>
+                <?php $ctr=1; ?>
+                @foreach ($medicines as $item)
+                <tr>
+                    <th>{{ $ctr++ }}</th>
+                    <td>{{ $item->name }} </td>
+                   
+                    <?php $days_before_expiration = Carbon\Carbon::parse(Carbon\Carbon::now())->diffInDays($item->expiration); ?>
+
+                    <td>
+                       @if($item->quantity<=0)
+                       <span class="text-danger">NO STOCK</span>
+                       @elseif($days_before_expiration<=0)
+                       <span class="text-danger">EXPIRED</span>
+                       @elseif($days_before_expiration<=30)
+                       <span class="text-danger">EXPIRATION NEAR</span>
+                       
+                       @else
+                        {{ $item->quantity }}
+                       @endif
+                     
+
+                    </td>
+
+                </tr>
+                @endforeach
+              </tbody>
+            </table>
+            @endif
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
       <div class="col-md-6">
         <div class="card">
           <div class="card-header">

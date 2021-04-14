@@ -37,8 +37,10 @@ Route::get('/dashboard', function () {
     $accounts = User::all();
 
     $patients = Patient::all();
+
+    $medicines = DB::table('medicines')->where('quantity','<=',100)->get();
   
-    return view('dashboard', compact('appointments', 'doctors', 'accounts', 'patients', 'pending_appointments'));
+    return view('dashboard', compact('appointments', 'doctors', 'accounts', 'patients', 'pending_appointments','medicines'));
 })->middleware(['auth'])->name('dashboard');
 
 Route::get('/', function () {
