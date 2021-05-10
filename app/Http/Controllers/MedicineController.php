@@ -42,6 +42,7 @@ class MedicineController extends Controller
          $stocks = DB::table('stocks')
         ->join('medicines', 'medicine_id', 'medicine_id_fk')
         ->selectRaw('*, sum(qty_changed) as pulled_out')
+        ->where('qty_changed','>',0)
         ->where('stocks.desc', 'removed')
         ->whereMonth('stocks.created_at', Carbon::now()->month)
         ->orderBy('stocks.created_at', 'asc')
@@ -58,8 +59,7 @@ class MedicineController extends Controller
             $transactions = DB::table('stocks')
             ->join('medicines', 'medicine_id', 'medicine_id_fk')
             ->selectRaw('*, sum(qty_changed) as pulled_out, stocks.created_at date')
-         
-            
+            ->where('qty_changed','>',0)
             ->orderBy('stocks.created_at', 'asc')
             ->groupBy('medicine_id')
             ->groupBy('desc')
@@ -71,7 +71,7 @@ class MedicineController extends Controller
             $transactions = DB::table('stocks')
             ->join('medicines', 'medicine_id', 'medicine_id_fk')
             ->selectRaw('*, sum(qty_changed) as pulled_out, stocks.created_at date')
-         
+            ->where('qty_changed','>',0)
             ->whereDate('stocks.created_at',Carbon::parse($request->search)->format('Y-m-d'))
             ->orderBy('stocks.created_at', 'asc')
             ->groupBy('medicine_id')
