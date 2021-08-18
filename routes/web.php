@@ -57,6 +57,8 @@ require __DIR__.'/auth.php';
 Route::get('/patients-record', 'PatientController@index')->middleware(['auth']);
 Route::post('/patient/store', 'PatientController@store')->middleware(['auth']);
 Route::get('/patient/{patient_id}', 'PatientController@edit')->middleware(['auth']);
+//route to export medical records
+Route::get('/patient/{patient_id}/export', 'PatientController@export')->middleware(['auth']);
 Route::put('/patient/{patient_id}/update', 'PatientController@update')->middleware(['auth']);
 
 //routes for doctors

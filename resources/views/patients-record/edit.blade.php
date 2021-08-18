@@ -11,6 +11,7 @@
            @if($appointments->count() > 0)
            <a href="/patient/{{ $patient->patient_id }}/appointments" class="btn btn-dark text-whit" > VIew All Appointments ({{ $appointments->count() }})</a>
            @endif
+           <a href="/patient/{{ $patient->patient_id }}/export" class="btn btn-dark text-white" ><i class="fas fa-download"></i> Export Diagnosis</a>
             <a href="#" class="btn btn-dark text-whit" data-toggle="modal" data-target="#appointmentmodal" data-whatever="@mdo"> Add New Appointment</a>
         </p>
   

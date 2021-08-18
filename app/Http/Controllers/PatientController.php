@@ -7,6 +7,7 @@ use App\Models\Doctor;
 use Illuminate\Http\Request;
 use Session;
 use DB;
+use Carbon\Carbon;
 
 class PatientController extends Controller
 {
@@ -73,7 +74,28 @@ class PatientController extends Controller
      */
     public function show(Patient $patient)
     {
-        //
+        
+    }
+
+    public function export($patient_id){
+
+        $patient = Patient::findOrFail($patient_id);
+
+         $appointments = DB::table('patients')
+        ->leftJoin('appointments', 'patient_id_fk', 'appointment_id')
+        ->leftJoin('diagnoses', 'appointment_id', 'appointment_id_fk')
+        ->leftJoin('prescriptions', 'prescriptions.appointment_id_fk', 'prescription_id')
+        ->where('patient_id', $patient_id)
+        ->get();
+
+        $data = [
+            'patient' => $patient,
+            'appointments' => $appointments,
+        ];
+       
+        $pdf = \PDF::loadView('patients-record.export', $data)->setPaper('a5', 'portrait');       
+      
+        return $pdf->download(Carbon::now().'-'.$patient->name.'.pdf');
     }
 
     /**
